@@ -1,10 +1,9 @@
 package com.example.demo;
 
-import com.mongodb.DBObject;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,8 +31,16 @@ public class DemoController {
         return repo.findAll();
     }
 
+    @RequestMapping(value = "/get/{id}")
+    public Optional<ApplicationForm> getApplicationFormByName(@PathVariable("id") String id) {
+        return repo.findById(id);
+    }
+
     @GetMapping(value = "/add")
     public ApplicationForm add() {
-        return repo.save(new ApplicationForm("email", "edu", "a", "email", "edu", "test", "test", "test", "test", "test"));
+        return repo.save(new ApplicationForm("emaffil", "edu", "a", "email", "edu", "test", "test", "test", "test", "test"));
     }
+
+
+
 }
