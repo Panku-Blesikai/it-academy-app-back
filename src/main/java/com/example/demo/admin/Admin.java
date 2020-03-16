@@ -1,15 +1,12 @@
 package com.example.demo.admin;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class Admin {
 
     @Id
     private String id;
-    private String login;
+    private String email;
     private String password;
     private String name;
     private String surname;
@@ -17,22 +14,27 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(String login, String password, String name, String surname) {
-        this.login = login;
+    public Admin(String email, String password, String name, String surname) {
+        this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
     }
 
-    public Admin(String login, String password) {
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -62,7 +64,8 @@ public class Admin {
     @Override
     public String toString() {
         return "Admin{" +
-                "login='" + login + '\'' +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
