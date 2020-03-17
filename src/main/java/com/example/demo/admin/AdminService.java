@@ -7,13 +7,16 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 public class AdminService {
 
     MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:pankublesikai1@ds161346.mlab.com:61346/heroku_6b64t1nj?retryWrites=false"));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("admin");
-
-    private Admin loggedIn = null;
 
 
     public AdminService() {
@@ -31,6 +34,7 @@ public class AdminService {
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
         }
+
         return candidate;
     }
 

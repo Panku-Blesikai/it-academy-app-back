@@ -63,6 +63,7 @@ public class ApplicationFormService {
         formToAdd.put("answerMotivation", applicationForm.getAnswerMotivation());
         formToAdd.put("answerExperience", applicationForm.getAnswerExperience());
         formToAdd.put("answerInfoAboutAcademy", applicationForm.getAnswerInfoAboutAcademy());
+        formToAdd.put( "dateTime", applicationForm.getDateTime());
         collection.save(formToAdd);
         return  setApplicationForm(formToAdd);
     }
@@ -81,6 +82,7 @@ public class ApplicationFormService {
         String answerMotivation = basicDBObject.getString("answerMotivation");
         String answerExperience = basicDBObject.getString("answerExperience");
         String answerInfoAboutAcademy = basicDBObject.getString("answerInfoAboutAcademy");
+        String dateTime = basicDBObject.getString("dateTime");
         ApplicationForm applicationForm = new ApplicationForm();
         applicationForm.setId(id);
         applicationForm.setEmail(email);
@@ -94,6 +96,7 @@ public class ApplicationFormService {
         applicationForm.setAnswerMotivation(answerMotivation);
         applicationForm.setAnswerExperience(answerExperience);
         applicationForm.setAnswerInfoAboutAcademy(answerInfoAboutAcademy);
+        applicationForm.setDateTime(dateTime);
         return applicationForm;
     }
 }

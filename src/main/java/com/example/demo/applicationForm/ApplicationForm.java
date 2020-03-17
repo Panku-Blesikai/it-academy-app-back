@@ -30,24 +30,17 @@ public class ApplicationForm {
 
     private String answerInfoAboutAcademy;
 
+    private String  dateTime;
+
     public ApplicationForm() {
     }
 
-    public ApplicationForm(String id, String email, String education, String name, String surname, String tel,
-                           String answerFreeTimeActivity, String answerThreePartAgreement, String answerAvailable14To18,
-                           String answerMotivation, String answerExperience, String answerInfoAboutAcademy) {
-        this.id = id;
-        this.email = email;
-        this.education = education;
-        this.name = name;
-        this.surname = surname;
-        this.tel = tel;
-        this.answerFreeTimeActivity = answerFreeTimeActivity;
-        this.answerThreePartAgreement = answerThreePartAgreement;
-        this.answerAvailable14To18 = answerAvailable14To18;
-        this.answerMotivation = answerMotivation;
-        this.answerExperience = answerExperience;
-        this.answerInfoAboutAcademy = answerInfoAboutAcademy;
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getId() {
