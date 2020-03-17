@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 public class Admin {
 
     @Id
-    private ObjectId id;
+    private String id;
     private String email;
     private String password;
     private String name;
@@ -22,11 +22,11 @@ public class Admin {
         this.surname = surname;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 

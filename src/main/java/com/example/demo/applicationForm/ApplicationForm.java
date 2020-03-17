@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 public class ApplicationForm {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     private String email;
 
@@ -33,7 +33,7 @@ public class ApplicationForm {
     public ApplicationForm() {
     }
 
-    public ApplicationForm(ObjectId id, String email, String education, String name, String surname, String tel,
+    public ApplicationForm(String id, String email, String education, String name, String surname, String tel,
                            String answerFreeTimeActivity, String answerThreePartAgreement, String answerAvailable14To18,
                            String answerMotivation, String answerExperience, String answerInfoAboutAcademy) {
         this.id = id;
@@ -50,11 +50,11 @@ public class ApplicationForm {
         this.answerInfoAboutAcademy = answerInfoAboutAcademy;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String  id) {
         this.id = id;
     }
 

@@ -19,7 +19,7 @@ public class WebController {
     AdminService adminService = new AdminService();
 
 
-    @GetMapping(value = "/getAll")
+    @GetMapping(value = "/get/all")
     public List<ApplicationForm> getAllApplications() {
         return applicationFormService.allApplications();
     }

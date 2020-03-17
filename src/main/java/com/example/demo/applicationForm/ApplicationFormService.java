@@ -1,5 +1,6 @@
 package com.example.demo.applicationForm;
 
+import com.example.demo.admin.Admin;
 import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
@@ -13,6 +14,7 @@ public class ApplicationFormService {
     MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:pankublesikai1@ds161346.mlab.com:61346/heroku_6b64t1nj?retryWrites=false"));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
+    
 
     public ApplicationFormService() {
     }
@@ -22,13 +24,16 @@ public class ApplicationFormService {
     ApplicationFormRepository applicationFormRepository;
 
     public ApplicationForm findById(ObjectId id) throws IncorrectDataException {
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("_id", id);
-        BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
-        if (dbObject == null)
-            throw new IncorrectDataException("Incorrect id");
-        return setApplicationForm(dbObject);
-    }
+//        if (!=null) {
+            BasicDBObject whereQuery = new BasicDBObject();
+            whereQuery.put("_id", id);
+            BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
+            if (dbObject == null)
+                throw new IncorrectDataException("Incorrect id");
+            return setApplicationForm(dbObject);
+        }
+//        else return null;
+//    }
 
     public List<ApplicationForm> allApplications(){
         DBCursor cursor = collection.find();
@@ -59,7 +64,7 @@ public class ApplicationFormService {
 
 
     public ApplicationForm setApplicationForm(BasicDBObject basicDBObject) {
-        ObjectId id = basicDBObject.getObjectId("_id");
+        String id = basicDBObject.getString("_id");
         String email = basicDBObject.getString("email");
         String education = basicDBObject.getString("education");
         String name = basicDBObject.getString("name");

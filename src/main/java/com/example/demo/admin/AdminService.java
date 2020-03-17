@@ -13,8 +13,10 @@ public class AdminService {
     DBCollection collection = db.getCollection("admin");
 
     public AdminService() {
+        loggedIn = null;
     }
 
+    public Admin loggedIn = null;
 
     @Autowired
     AdminRepository adminRepository;
@@ -28,6 +30,7 @@ public class AdminService {
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
         }
+        loggedIn = candidate;
         return candidate;
     }
 
@@ -52,7 +55,7 @@ public class AdminService {
         return  setAdmin(adminToAdd);
     }
     public Admin setAdmin(BasicDBObject basicDBObject){
-        ObjectId id = basicDBObject.getObjectId("_id");
+        String id = basicDBObject.getString("_id");
         String email = basicDBObject.getString("email");
         String password = basicDBObject.getString("password");
         String name = basicDBObject.getString("name");
