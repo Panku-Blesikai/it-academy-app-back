@@ -1,19 +1,33 @@
 package com.example.demo.validator;
 
 public abstract class Validator<T> {
-    public abstract void validate(T attribute, String message);
+    public abstract void validate(T attribute);
 
     public boolean isStringEmpty(String string) {
         return string.trim().length() == 0;
     }
 
-    public boolean doesStringContainLetters(String word) {
+    public void checkIfFieldIsEmpty(String data) {
+        if (isStringEmpty(data)) {
+            throw new ValidationException(ErrorMessages.fieldIsEmpty);
+        }
+    }
+
+    public void doesStringContainLetters(String word) {
         char[] chars = word.toCharArray();
         for (char c : chars) {
             if (!Character.isLetter(c)) {
-                return false;
+                throw new ValidationException(ErrorMessages.illegalCharactersUsed);
             }
         }
-        return true;
+    }
+
+    public void doesStringContainNumbers(String string) {
+        char[] chars = string.toCharArray();
+        for (char c : chars) {
+            if (!Character.isDigit(c)) {
+                throw new ValidationException(ErrorMessages.illegalCharactersUsed);
+            }
+        }
     }
 }

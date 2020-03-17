@@ -2,22 +2,19 @@ package com.example.demo.validator;
 
 public class NameValidator extends Validator<String> {
     @Override
-    public void validate(String attribute, String message) {
-        if (isStringEmpty(attribute)) {
-            throw new ValidationException("Input field is empty");
-        }
+    public void validate(String attribute) {
 
         attribute = attribute.trim();
 
-        checkEveryNameInString(attribute, message);
+        checkIfFieldIsEmpty(attribute);
+
+        checkEveryNameInString(attribute);
     }
 
-    private void checkEveryNameInString(String attribute, String errorMessage) {
+    private void checkEveryNameInString(String attribute) {
         String[] words = attribute.split(" ");
         for (String word : words) {
-            if (!doesStringContainLetters(word)) {
-                throw new ValidationException(errorMessage);
-            }
+            doesStringContainLetters(word);
         }
     }
 }
