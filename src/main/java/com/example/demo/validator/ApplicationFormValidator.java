@@ -1,6 +1,6 @@
 package com.example.demo.validator;
 
-import com.example.demo.ApplicationForm;
+import com.example.demo.applicationForm.ApplicationForm;
 
 public class ApplicationFormValidator {
     public void validate(ApplicationForm applicationForm) {

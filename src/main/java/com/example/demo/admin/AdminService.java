@@ -1,6 +1,7 @@
 package com.example.demo.admin;
 
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -24,17 +25,17 @@ public class AdminService {
     public Admin login(String email, String password) throws Exception {
         Admin candidate = findUserByEmail(email);
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
-            throw new IncorrectPasswordException("Incorrect password");
+            throw new IncorrectDataException("Incorrect password");
         }
         return candidate;
     }
 
-    public Admin findUserByEmail(String logEmail) throws IncorrectEmailException {
+    public Admin findUserByEmail(String logEmail) throws IncorrectDataException {
         BasicDBObject whereQuery = new BasicDBObject();
         whereQuery.put("email", logEmail);
         BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
         if (dbObject == null)
-            throw new IncorrectEmailException("Incorrect email");
+            throw new IncorrectDataException("Incorrect email");
         return setAdmin(dbObject);
     }
 
@@ -50,7 +51,7 @@ public class AdminService {
         return  setAdmin(adminToAdd);
     }
     public Admin setAdmin(BasicDBObject basicDBObject){
-        String id = basicDBObject.getString("_id");
+        ObjectId id = basicDBObject.getObjectId("_id");
         String email = basicDBObject.getString("email");
         String password = basicDBObject.getString("password");
         String name = basicDBObject.getString("name");

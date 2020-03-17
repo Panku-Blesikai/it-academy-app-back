@@ -1,11 +1,12 @@
 package com.example.demo.admin;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class Admin {
 
     @Id
-    private String id;
+    private ObjectId id;
     private String email;
     private String password;
     private String name;
@@ -21,11 +22,11 @@ public class Admin {
         this.surname = surname;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
