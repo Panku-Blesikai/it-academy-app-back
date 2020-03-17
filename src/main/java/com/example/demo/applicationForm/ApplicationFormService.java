@@ -1,9 +1,12 @@
 package com.example.demo.applicationForm;
 
-import com.example.demo.admin.IncorrectDataException;
+import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApplicationFormService {
 
@@ -25,6 +28,16 @@ public class ApplicationFormService {
         if (dbObject == null)
             throw new IncorrectDataException("Incorrect id");
         return setApplicationForm(dbObject);
+    }
+
+    public List<ApplicationForm> allApplications(){
+        DBCursor cursor = collection.find();
+        List <ApplicationForm> applicationForms = new ArrayList<>();
+        while(cursor.hasNext())
+        {
+            applicationForms.add(setApplicationForm((BasicDBObject) cursor.next()));
+        }
+        return applicationForms;
     }
 
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
