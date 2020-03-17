@@ -1,5 +1,6 @@
 package com.example.demo.admin;
 
+import com.example.demo.applicationForm.ApplicationFormService;
 import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
@@ -12,11 +13,11 @@ public class AdminService {
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("admin");
 
-    public AdminService() {
-        loggedIn = null;
-    }
+    private Admin loggedIn = null;
 
-    public Admin loggedIn = null;
+
+    public AdminService() {
+    }
 
     @Autowired
     AdminRepository adminRepository;
@@ -30,7 +31,6 @@ public class AdminService {
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
         }
-        loggedIn = candidate;
         return candidate;
     }
 
