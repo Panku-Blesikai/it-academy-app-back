@@ -51,6 +51,4 @@ public class WebController {
         return applicationFormService.createNewForm(applicationForm);
     }
 
-
-
 }

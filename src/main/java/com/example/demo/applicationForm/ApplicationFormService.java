@@ -1,7 +1,5 @@
 package com.example.demo.applicationForm;
 
-import com.example.demo.admin.Admin;
-import com.example.demo.admin.AdminService;
 import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
@@ -16,7 +14,6 @@ public class ApplicationFormService {
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
 
-    public Admin loggedIn = null;
 
     public ApplicationFormService() {
     }
@@ -26,8 +23,6 @@ public class ApplicationFormService {
     ApplicationFormRepository applicationFormRepository;
 
     public ApplicationForm findById(ObjectId id) throws IncorrectDataException {
-        System.out.println(loggedIn);
-//        if (getLoggedIn()!=null) {
             BasicDBObject whereQuery = new BasicDBObject();
             whereQuery.put("_id", id);
             BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
@@ -35,11 +30,8 @@ public class ApplicationFormService {
                 throw new IncorrectDataException("Incorrect id");
             return setApplicationForm(dbObject);
         }
-//        else throw  new IncorrectDataException("You should log in to see this information");
-//    }
 
     public List<ApplicationForm> allApplications() throws IncorrectDataException {
-//        if (getLoggedIn()!=null) {
             DBCursor cursor = collection.find();
             List<ApplicationForm> applicationForms = new ArrayList<>();
             while (cursor.hasNext()) {
@@ -47,8 +39,6 @@ public class ApplicationFormService {
             }
             return applicationForms;
         }
-//        else throw  new IncorrectDataException("You should log in to see this information");
-//    }
 
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
         BasicDBObject formToAdd = new BasicDBObject();
