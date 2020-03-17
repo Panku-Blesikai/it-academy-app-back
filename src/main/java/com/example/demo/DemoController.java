@@ -1,8 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.admin.Admin;
-import com.example.demo.admin.AdminRepository;
-import com.example.o.admin.AdminService;
+import com.example.demo.admin.AdminService;
 import com.google.gson.Gson;
 import com.example.demo.validator.ApplicationFormValidator;
 import org.bson.types.ObjectId;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class DemoController {
