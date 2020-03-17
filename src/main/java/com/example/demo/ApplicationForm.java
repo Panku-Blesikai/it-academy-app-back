@@ -1,11 +1,12 @@
 package com.example.demo;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class ApplicationForm {
 
     @Id
-    private String id;
+    private ObjectId id;
 
     private String email;
 
@@ -45,7 +46,7 @@ public class ApplicationForm {
         this.answerInfoAbout = answerInfoAbout;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
@@ -87,5 +88,49 @@ public class ApplicationForm {
 
     public String getAnswerInfoAbout() {
         return answerInfoAbout;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public void setAnswerContract(String answerContract) {
+        this.answerContract = answerContract;
+    }
+
+    public void setAnswerTime(String answerTime) {
+        this.answerTime = answerTime;
+    }
+
+    public void setAnswerMotivation(String answerMotivation) {
+        this.answerMotivation = answerMotivation;
+    }
+
+    public void setAnswerExperience(String answerExperience) {
+        this.answerExperience = answerExperience;
+    }
+
+    public void setAnswerInfoAbout(String answerInfoAbout) {
+        this.answerInfoAbout = answerInfoAbout;
     }
 }

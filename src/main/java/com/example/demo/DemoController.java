@@ -2,13 +2,14 @@ package com.example.demo;
 
 import com.example.demo.admin.Admin;
 import com.example.demo.admin.AdminRepository;
-import com.example.demo.admin.AdminService;
+import com.example.o.admin.AdminService;
+import com.google.gson.Gson;
+import com.example.demo.validator.ApplicationFormValidator;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class DemoController {
@@ -43,9 +44,13 @@ public class DemoController {
         return adminService.login(input.getEmail(),input.getPassword());
     }
 
-    @GetMapping(value = "/add")
-    public ApplicationForm add() {
-        return applicationFormRepository.save(new ApplicationForm("emaffil", "edu", "a", "email", "edu", "test", "test", "test", "test", "test"));
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public ApplicationForm addApplication(@RequestBody ApplicationForm applicationForm) {
+        ApplicationFormValidator validator = new ApplicationFormValidator();
+        validator.validate(applicationForm);
+        applicationForm.setId(ObjectId.get());
+        return applicationFormRepository.save(applicationForm);
     }
 
 
