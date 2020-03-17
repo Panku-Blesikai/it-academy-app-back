@@ -1,6 +1,7 @@
 package com.example.demo.applicationForm;
 
 import com.example.demo.admin.Admin;
+import com.example.demo.admin.AdminService;
 import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
@@ -14,7 +15,8 @@ public class ApplicationFormService {
     MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:pankublesikai1@ds161346.mlab.com:61346/heroku_6b64t1nj?retryWrites=false"));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
-    
+
+    public Admin loggedIn = null;
 
     public ApplicationFormService() {
     }
@@ -24,7 +26,8 @@ public class ApplicationFormService {
     ApplicationFormRepository applicationFormRepository;
 
     public ApplicationForm findById(ObjectId id) throws IncorrectDataException {
-//        if (!=null) {
+        System.out.println(loggedIn);
+//        if (getLoggedIn()!=null) {
             BasicDBObject whereQuery = new BasicDBObject();
             whereQuery.put("_id", id);
             BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
@@ -32,18 +35,20 @@ public class ApplicationFormService {
                 throw new IncorrectDataException("Incorrect id");
             return setApplicationForm(dbObject);
         }
-//        else return null;
+//        else throw  new IncorrectDataException("You should log in to see this information");
 //    }
 
-    public List<ApplicationForm> allApplications(){
-        DBCursor cursor = collection.find();
-        List <ApplicationForm> applicationForms = new ArrayList<>();
-        while(cursor.hasNext())
-        {
-            applicationForms.add(setApplicationForm((BasicDBObject) cursor.next()));
+    public List<ApplicationForm> allApplications() throws IncorrectDataException {
+//        if (getLoggedIn()!=null) {
+            DBCursor cursor = collection.find();
+            List<ApplicationForm> applicationForms = new ArrayList<>();
+            while (cursor.hasNext()) {
+                applicationForms.add(setApplicationForm((BasicDBObject) cursor.next()));
+            }
+            return applicationForms;
         }
-        return applicationForms;
-    }
+//        else throw  new IncorrectDataException("You should log in to see this information");
+//    }
 
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
         BasicDBObject formToAdd = new BasicDBObject();
@@ -58,6 +63,7 @@ public class ApplicationFormService {
         formToAdd.put("answerMotivation", applicationForm.getAnswerMotivation());
         formToAdd.put("answerExperience", applicationForm.getAnswerExperience());
         formToAdd.put("answerInfoAboutAcademy", applicationForm.getAnswerInfoAboutAcademy());
+        formToAdd.put( "dateTime", applicationForm.getDateTime());
         collection.save(formToAdd);
         return  setApplicationForm(formToAdd);
     }
@@ -76,6 +82,7 @@ public class ApplicationFormService {
         String answerMotivation = basicDBObject.getString("answerMotivation");
         String answerExperience = basicDBObject.getString("answerExperience");
         String answerInfoAboutAcademy = basicDBObject.getString("answerInfoAboutAcademy");
+        String dateTime = basicDBObject.getString("dateTime");
         ApplicationForm applicationForm = new ApplicationForm();
         applicationForm.setId(id);
         applicationForm.setEmail(email);
@@ -89,6 +96,7 @@ public class ApplicationFormService {
         applicationForm.setAnswerMotivation(answerMotivation);
         applicationForm.setAnswerExperience(answerExperience);
         applicationForm.setAnswerInfoAboutAcademy(answerInfoAboutAcademy);
+        applicationForm.setDateTime(dateTime);
         return applicationForm;
     }
 }

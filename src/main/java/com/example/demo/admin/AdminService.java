@@ -1,10 +1,16 @@
 package com.example.demo.admin;
 
+import com.example.demo.applicationForm.ApplicationFormService;
 import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AdminService {
 
@@ -12,11 +18,9 @@ public class AdminService {
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("admin");
 
-    public AdminService() {
-        loggedIn = null;
-    }
 
-    public Admin loggedIn = null;
+    public AdminService() {
+    }
 
     @Autowired
     AdminRepository adminRepository;
@@ -30,7 +34,7 @@ public class AdminService {
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
         }
-        loggedIn = candidate;
+
         return candidate;
     }
 

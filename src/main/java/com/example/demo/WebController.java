@@ -20,7 +20,7 @@ public class WebController {
 
 
     @GetMapping(value = "/get/all")
-    public List<ApplicationForm> getAllApplications() {
+    public List<ApplicationForm> getAllApplications() throws IncorrectDataException {
         return applicationFormService.allApplications();
     }
 

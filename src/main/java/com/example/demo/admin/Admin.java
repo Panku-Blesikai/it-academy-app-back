@@ -12,8 +12,11 @@ public class Admin {
     private String name;
     private String surname;
 
+
     public Admin() {
     }
+
+
 
     public Admin(String email, String password, String name, String surname) {
         this.email = email;
