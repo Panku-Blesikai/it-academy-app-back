@@ -2,12 +2,11 @@ package com.example.demo;
 
 import com.example.demo.admin.Admin;
 import com.example.demo.admin.AdminService;
-import com.example.demo.admin.IncorrectDataException;
+import com.example.demo.exception.IncorrectDataException;
 import com.example.demo.applicationForm.*;
 import com.google.gson.Gson;
 import com.example.demo.validator.ApplicationFormValidator;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +14,6 @@ import java.util.List;
 @RestController
 public class WebController {
 
-    @Autowired
-    ApplicationFormRepository applicationFormRepository;
 
     ApplicationFormService applicationFormService = new ApplicationFormService();
     AdminService adminService = new AdminService();
@@ -24,10 +21,10 @@ public class WebController {
 
     @GetMapping(value = "/getAll")
     public List<ApplicationForm> getAllApplications() {
-        return applicationFormRepository.findAll();
+        return applicationFormService.allApplications();
     }
 
-    @RequestMapping(value = "/get/{id}")
+    @GetMapping(value = "/get/{id}")
     public ApplicationForm getApplicationFormById(@PathVariable("id") ObjectId id) throws IncorrectDataException {
         return applicationFormService.findById(id);
     }
@@ -46,7 +43,7 @@ public class WebController {
         return adminService.login(input.getEmail(),input.getPassword());
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping(value = "/add")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
