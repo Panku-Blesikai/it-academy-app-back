@@ -11,7 +11,7 @@ public class ExperienceValidatorTest {
         experienceValidator.validate("");
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void shouldFailWhenFieldContainsSpacesOnly() {
         experienceValidator.validate("               ");
     }
