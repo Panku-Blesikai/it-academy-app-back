@@ -1,16 +1,9 @@
 package com.example.demo.admin;
 
-import com.example.demo.applicationForm.ApplicationFormService;
 import com.example.demo.exception.IncorrectDataException;
 import com.mongodb.*;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class AdminService {
 
@@ -34,7 +27,6 @@ public class AdminService {
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
         }
-
         return candidate;
     }
 
@@ -55,6 +47,7 @@ public class AdminService {
         adminToAdd.put("password", admin.getPassword());
         adminToAdd.put("name", admin.getName());
         adminToAdd.put("surname", admin.getSurname());
+        adminToAdd.put("role", admin.getRole());
         collection.save(adminToAdd);
         return  setAdmin(adminToAdd);
     }
@@ -64,12 +57,14 @@ public class AdminService {
         String password = basicDBObject.getString("password");
         String name = basicDBObject.getString("name");
         String surname = basicDBObject.getString("surname");
+        String role = basicDBObject.getString("role");
         Admin admin = new Admin();
         admin.setId(id);
         admin.setEmail(email);
         admin.setPassword(password);
         admin.setName(name);
         admin.setSurname(surname);
+        admin.setRole(role);
         return admin;
     }
 }
