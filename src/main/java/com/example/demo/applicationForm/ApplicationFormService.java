@@ -5,7 +5,10 @@ import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ApplicationFormService {
@@ -13,9 +16,11 @@ public class ApplicationFormService {
     MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:pankublesikai1@ds161346.mlab.com:61346/heroku_6b64t1nj?retryWrites=false"));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
+    DateFormat dateFormat;
 
 
     public ApplicationFormService() {
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
 
@@ -53,7 +58,7 @@ public class ApplicationFormService {
         formToAdd.put("answerMotivation", applicationForm.getAnswerMotivation());
         formToAdd.put("answerExperience", applicationForm.getAnswerExperience());
         formToAdd.put("answerInfoAboutAcademy", applicationForm.getAnswerInfoAboutAcademy());
-        formToAdd.put( "dateTime", applicationForm.getDateTime());
+        formToAdd.put( "dateTime", dateFormat.format(new Date()));
         collection.save(formToAdd);
         return  setApplicationForm(formToAdd);
     }
