@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
 public class ValidationException extends RuntimeException {
-    public ValidationException(String message) {
-        super(message);
+    public ValidationException(ErrorMessages message) {
+        super(message.toString());
     }
 }
