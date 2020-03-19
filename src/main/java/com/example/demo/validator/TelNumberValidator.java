@@ -1,5 +1,7 @@
 package com.example.demo.validator;
 
+import java.util.regex.Pattern;
+
 public class TelNumberValidator extends Validator<String> {
     @Override
     public void validate(String attribute) {
@@ -11,23 +13,12 @@ public class TelNumberValidator extends Validator<String> {
     }
 
     private void checkNumberByNumberFormat(String number) {
-        if (number.length() == 12) {
-            checkLongNumberFormat(number);
-        } else if (number.length() == 9) {
-            checkShortNumberFormat(number);
-        } else {
-            throw new ValidationException(ErrorMessages.invalidTelNumberLength);
-        }
-    }
+        String phoneNumberRegex = "^([+][0-9]{11}|[0-9]{9})$";
+        System.out.println(number);
+        Pattern pat = Pattern.compile(phoneNumberRegex);
 
-    private void checkLongNumberFormat(String number) {
-        if (number.charAt(0) != '+') {
+        if (!pat.matcher(number).matches()) {
             throw new ValidationException(ErrorMessages.invalidTelNumberFormat);
         }
-        doesStringContainNumbers(number.substring(1));
-    }
-
-    private void checkShortNumberFormat(String number) {
-        doesStringContainNumbers(number);
     }
 }

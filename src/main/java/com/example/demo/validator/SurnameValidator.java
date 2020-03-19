@@ -1,5 +1,6 @@
 package com.example.demo.validator;
 
+//Room for improvement: Regex could be used for validation
 public class SurnameValidator extends Validator<String> {
     @Override
     public void validate(String attribute) {
