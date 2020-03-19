@@ -5,11 +5,15 @@ import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 public class ApplicationFormService {
 
@@ -27,6 +31,45 @@ public class ApplicationFormService {
     @Autowired
     ApplicationFormRepository applicationFormRepository;
 
+    public void sendMail(ApplicationForm applicationForm){
+        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+        Properties props = System.getProperties();
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.debug", "true");
+        props.put("mail.store.protocol", "pop3");
+        props.put("mail.transport.protocol", "smtp");
+        final String username = "pankublesikai@gmail.com";
+        final String password = "AKpankublesikaiIA";
+        try{
+            Session session = Session.getDefaultInstance(props,
+                    new Authenticator(){
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }});
+            Message message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress("pankublesikai@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(applicationForm.getEmail(),false));
+            message.setSubject("IT academy");
+            message.setText("Dear " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
+                    "\n" +
+                    "Thank you for participation, you can find your application here:\n" +
+                    "\n" +
+                    "https://it-academy-app-front.herokuapp.com/admin/applications/" + applicationForm.getId() + "\n" +
+                    "\n" +
+                    "Best Regards, IT academy");
+            message.setSentDate(new Date());
+            Transport.send(message);
+//            System.out.println("Message sent.");
+        }catch (MessagingException e){ System.out.println("Error, cause: " + e);}
+    }
+
     public ApplicationForm findById(ObjectId id) throws IncorrectDataException {
             BasicDBObject whereQuery = new BasicDBObject();
             whereQuery.put("_id", id);
@@ -36,7 +79,7 @@ public class ApplicationFormService {
             return setApplicationForm(dbObject);
         }
 
-    public List<ApplicationForm> allApplications() throws IncorrectDataException {
+    public List<ApplicationForm> allApplications() {
             DBCursor cursor = collection.find();
             List<ApplicationForm> applicationForms = new ArrayList<>();
             while (cursor.hasNext()) {
@@ -60,6 +103,7 @@ public class ApplicationFormService {
         formToAdd.put("answerInfoAboutAcademy", applicationForm.getAnswerInfoAboutAcademy());
         formToAdd.put( "dateTime", dateFormat.format(new Date()));
         collection.save(formToAdd);
+        sendMail(setApplicationForm(formToAdd));
         return  setApplicationForm(formToAdd);
     }
 

@@ -20,11 +20,11 @@ public class WebController {
 
 
     @GetMapping(value = "/get/all")
-    public List<ApplicationForm> getAllApplications() throws IncorrectDataException {
+    public List<ApplicationForm> getAllApplications() {
         return applicationFormService.allApplications();
     }
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/get/application/{id}")
     public ApplicationForm getApplicationFormById(@PathVariable("id") ObjectId id) throws IncorrectDataException {
         return applicationFormService.findById(id);
     }
