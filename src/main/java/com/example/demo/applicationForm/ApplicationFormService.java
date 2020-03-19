@@ -21,7 +21,7 @@ import java.util.Properties;
 
 public class ApplicationFormService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:pankublesikai1@ds161346.mlab.com:61346/heroku_6b64t1nj?retryWrites=false"));
+    MongoClient mongo = new MongoClient(new MongoClientURI(System.getProperty("MONGODB_URI")));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
     DateFormat dateFormat;
