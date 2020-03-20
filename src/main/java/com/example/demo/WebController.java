@@ -29,6 +29,14 @@ public class WebController {
         return applicationFormService.findById(id);
     }
 
+    @PutMapping (value = "/status/change")
+    @ResponseBody
+    public ApplicationForm changeStatus(@RequestBody String statusInfo) throws IncorrectDataException {
+        Gson parser = new Gson();
+        ApplicationForm input = parser.fromJson(statusInfo, ApplicationForm.class);
+        return applicationFormService.changeStatus(input.getId(),input.getStatus());
+    }
+
     @PostMapping(value = "/admin/registration")
     @ResponseBody
     public Admin createAdmin(@RequestBody Admin admin) throws Exception {

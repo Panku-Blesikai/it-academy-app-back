@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class AdminService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:pankublesikai1@ds161346.mlab.com:61346/heroku_6b64t1nj?retryWrites=false"));
+    MongoClient mongo = new MongoClient(new MongoClientURI(System.getProperty("MONGODB_URI")));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("admin");
 
@@ -39,7 +39,7 @@ public class AdminService {
         return setAdmin(dbObject);
     }
 
-    public Admin create(Admin admin) throws Exception {
+    public Admin create(Admin admin) {
         AdminService adminService = new AdminService();
         admin.setPassword(adminService.hashPassword(admin.getPassword()));
         BasicDBObject adminToAdd = new BasicDBObject();
