@@ -51,7 +51,7 @@ public class WebController {
         return adminService.login(input.getEmail(),input.getPassword());
     }
 
-    @PostMapping(value = "/applications/add")
+    @PostMapping(value = "/applications")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
