@@ -19,17 +19,17 @@ public class WebController {
     AdminService adminService = new AdminService();
 
 
-    @GetMapping(value = "/get/all")
+    @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
         return applicationFormService.allApplications();
     }
 
-    @GetMapping(value = "/get/application/{id}")
+    @GetMapping(value = "/applications/{id}")
     public ApplicationForm getApplicationFormById(@PathVariable("id") ObjectId id) throws IncorrectDataException {
         return applicationFormService.findById(id);
     }
 
-    @PutMapping (value = "/status/change")
+    @PutMapping (value = "/applications/status")
     @ResponseBody
     public ApplicationForm changeStatus(@RequestBody String statusInfo) throws IncorrectDataException {
         Gson parser = new Gson();
@@ -39,7 +39,7 @@ public class WebController {
 
     @PostMapping(value = "/admin/registration")
     @ResponseBody
-    public Admin createAdmin(@RequestBody Admin admin) throws Exception {
+    public Admin createAdmin(@RequestBody Admin admin) {
         return adminService.create(admin);
     }
 
@@ -51,7 +51,7 @@ public class WebController {
         return adminService.login(input.getEmail(),input.getPassword());
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/applications/add")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
