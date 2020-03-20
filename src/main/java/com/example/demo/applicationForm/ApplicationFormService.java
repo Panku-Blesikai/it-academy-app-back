@@ -48,7 +48,7 @@ public class ApplicationFormService {
         props.put("mail.store.protocol", "pop3");
         props.put("mail.transport.protocol", "smtp");
         final String username = "pankublesikai@gmail.com";
-        final String password = "AKpankublesikaiIA";
+        final String password = System.getProperty("EMAIL_PASS");
         try {
             Session session = Session.getDefaultInstance(props,
                     new Authenticator() {
