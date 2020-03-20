@@ -19,7 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/add","/get/application/**", "/admin/**").permitAll()
+        http.authorizeRequests().antMatchers("/applications/add", "/admin/**").permitAll()
                 .anyRequest().fullyAuthenticated().and().httpBasic();
     }
 
