@@ -11,7 +11,6 @@ public class AdminService {
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("admin");
 
-
     public AdminService() {
     }
 
