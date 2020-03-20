@@ -7,10 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class AdminService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI(System.getProperty("MONGODB_URI")));
+    MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv("MONGODB_URI")));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("admin");
-
 
     public AdminService() {
     }

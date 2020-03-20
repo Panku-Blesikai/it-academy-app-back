@@ -21,7 +21,7 @@ import java.util.Properties;
 
 public class ApplicationFormService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI(System.getProperty("MONGODB_URI")));
+    MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv("MONGODB_URI")));
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
     DateFormat dateFormat;
@@ -48,7 +48,7 @@ public class ApplicationFormService {
         props.put("mail.store.protocol", "pop3");
         props.put("mail.transport.protocol", "smtp");
         final String username = "pankublesikai@gmail.com";
-        final String password = System.getProperty("EMAIL_PASS");
+        final String password = System.getenv("EMAIL_PASS");
         try {
             Session session = Session.getDefaultInstance(props,
                     new Authenticator() {
