@@ -8,6 +8,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.Document;
+import sun.net.www.ApplicationLaunchException;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -95,12 +96,12 @@ public class ApplicationFormService {
         return applicationForms;
     }
 
-    public ApplicationForm changeStatus(String id, String status) throws IncorrectDataException {
-        ObjectId objectId = new ObjectId(id);
+    public ApplicationForm changeStatus(ApplicationForm applicationForm) throws IncorrectDataException {
+        ObjectId objectId = new ObjectId(applicationForm.getId());
         StatusChangeValidator validator = new StatusChangeValidator();
         validator.checkIsStatusInProgress(findById(objectId).getStatus());
         BasicDBObject searchQuery = new BasicDBObject().append("_id", objectId);
-        BasicDBObject newStatus = new BasicDBObject().append("status", status);
+        BasicDBObject newStatus = new BasicDBObject().append("status", applicationForm.getStatus());
         BasicDBObject newDocument = new BasicDBObject().append("$set", newStatus);
         collection.update(searchQuery, newDocument);
         return findById(objectId);
