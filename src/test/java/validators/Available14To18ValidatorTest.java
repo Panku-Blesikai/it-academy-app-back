@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.Available14To18Validator;
+import it.academy.app.validators.Available14To18Validator;
 import org.junit.Test;
 
 public class Available14To18ValidatorTest {

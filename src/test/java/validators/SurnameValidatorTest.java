@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.SurnameValidator;
+import it.academy.app.validators.SurnameValidator;
 import org.junit.Test;
 
 public class SurnameValidatorTest {

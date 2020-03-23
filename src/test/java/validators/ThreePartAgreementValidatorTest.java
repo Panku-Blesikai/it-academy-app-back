@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.ThreePartAgreementValidator;
+import it.academy.app.validators.ThreePartAgreementValidator;
 import org.junit.Test;
 
 public class ThreePartAgreementValidatorTest {

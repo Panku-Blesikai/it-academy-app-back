@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.ExperienceValidator;
+import it.academy.app.validators.ExperienceValidator;
 import org.junit.Test;
 
 public class ExperienceValidatorTest {
