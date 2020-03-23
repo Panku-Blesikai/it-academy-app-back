@@ -6,5 +6,7 @@ public class ExperienceValidator extends Validator<String> {
         attribute = attribute.trim();
 
         checkIfFieldIsEmpty(attribute);
+
+        doesNotExceedLimit(attribute, AnswerLength.longQuestionAnswer.getValue());
     }
 }

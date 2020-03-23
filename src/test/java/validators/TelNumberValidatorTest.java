@@ -61,13 +61,16 @@ public class TelNumberValidatorTest {
         telNumberValidator.validate("123456789076");
     }
 
-    @Test
-    public void shouldReturnSuccessWhenLongNumberFormatIsGiven() {
+    @Test(expected = Exception.class)
+    public void shouldFailWhenLongNumberFormatIsGiven() {
         telNumberValidator.validate("+37012345678");
     }
 
-    @Test
-    public void shouldReturnSuccessWhenShortNumberFormatIsGiven() {
+    @Test(expected = Exception.class)
+    public void shouldFailWhenShortNumberFormatIsGiven() {
         telNumberValidator.validate("861234567");
     }
+
+    @Test
+    public void returnSuccessWhenValidFormatIsGiven() {telNumberValidator.validate("+3706-66-66666");}
 }

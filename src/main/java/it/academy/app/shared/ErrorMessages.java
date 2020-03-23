@@ -38,6 +38,12 @@ public enum ErrorMessages {
             return "Telephone number format is invalid";
         }
     },
+    invalidInputSize {
+        @Override
+        public String toString() {
+            return "Input size is invalid";
+        }
+    },
     invalidStatus {
         @Override
         public String toString() {
