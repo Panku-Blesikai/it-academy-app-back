@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.EducationValidator;
+import it.academy.app.validators.EducationValidator;
 import org.junit.Test;
 
 public class EducationValidatorTest {

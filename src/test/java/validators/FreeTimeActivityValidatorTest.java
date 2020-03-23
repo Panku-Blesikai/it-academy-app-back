@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.FreeTimeActivityValidator;
+import it.academy.app.validators.FreeTimeActivityValidator;
 import org.junit.Test;
 
 public class FreeTimeActivityValidatorTest {

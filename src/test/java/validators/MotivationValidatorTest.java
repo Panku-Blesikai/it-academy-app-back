@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.MotivationValidator;
+import it.academy.app.validators.MotivationValidator;
 import org.junit.Test;
 
 public class MotivationValidatorTest {

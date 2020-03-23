@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.EmailValidator;
+import it.academy.app.validators.EmailValidator;
 import org.junit.Test;
 
 public class EmailValidatorTest {
