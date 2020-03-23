@@ -1,7 +1,7 @@
 package validators;
 
 
-import com.example.demo.validator.InfoAboutAcademyValidator;
+import it.academy.app.validators.InfoAboutAcademyValidator;
 import org.junit.Test;
 
 public class InfoAboutAcademyValidatorTest {

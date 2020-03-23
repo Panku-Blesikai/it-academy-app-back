@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.TelNumberValidator;
+import it.academy.app.validators.TelNumberValidator;
 import org.junit.Test;
 
 public class TelNumberValidatorTest {

@@ -1,7 +1,7 @@
 package validators;
 
 
-import com.example.demo.validator.NameValidator;
+import it.academy.app.validators.NameValidator;
 import org.junit.Test;
 
 public class NameValidatorTest {

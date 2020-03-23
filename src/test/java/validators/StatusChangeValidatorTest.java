@@ -1,6 +1,6 @@
 package validators;
 
-import com.example.demo.validator.StatusChangeValidator;
+import it.academy.app.validators.StatusChangeValidator;
 import org.junit.Test;
 
 public class StatusChangeValidatorTest {
