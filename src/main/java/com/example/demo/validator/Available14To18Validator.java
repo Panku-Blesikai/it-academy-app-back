@@ -6,5 +6,7 @@ public class Available14To18Validator extends Validator<String> {
         attribute = attribute.trim();
 
         checkIfFieldIsEmpty(attribute);
+
+        doesNotExceedLimit(attribute, AnswerLength.longQuestionAnswer.getValue());
     }
 }

@@ -30,4 +30,10 @@ public abstract class Validator<T> {
             }
         }
     }
+
+    public void doesNotExceedLimit(String string, int n) {
+        if (string.length() >= n) {
+            throw new ValidationException(ErrorMessages.invalidInputSize);
+        }
+    }
 }
