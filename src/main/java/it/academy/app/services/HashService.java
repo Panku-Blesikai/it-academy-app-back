@@ -10,8 +10,12 @@ public class HashService {
 
     private MessageDigest digest;
 
-    public HashService() throws NoSuchAlgorithmException {
-        digest = MessageDigest.getInstance("SHA-256");
+    public HashService() {
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getHash(String value) {
