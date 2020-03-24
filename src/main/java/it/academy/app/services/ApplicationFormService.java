@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,22 +21,17 @@ import java.util.Properties;
 
 public class ApplicationFormService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv("MONGODB_URI")));
-    DB db = mongo.getDB("heroku_6b64t1nj");
-    DBCollection collection = db.getCollection("applicationForm");
-    DateFormat dateFormat;
-    MessageDigest digest;
+    private MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv("MONGODB_URI")));
+    private DB db = mongo.getDB("heroku_6b64t1nj");
+    private DBCollection collection = db.getCollection("applicationForm");
+    private DateFormat dateFormat;
+    private HashService hashService;
 
 
-    public ApplicationFormService() {
+    public ApplicationFormService() throws NoSuchAlgorithmException {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        hashService = new HashService();
     }
-
 
     @Autowired
     ApplicationFormRepository applicationFormRepository;
@@ -74,7 +67,7 @@ public class ApplicationFormService {
                     "\n" +
                     "Thank you for participation, you can find your application here:\n" +
                     "\n" +
-                    "https://it-academy-app-front.herokuapp.com/admin/applications/" + applicationForm.getId() + "\n" +
+                    "https://it-academy-app-front.herokuapp.com/applications/" + applicationForm.getIdHash() + "\n" +
                     "\n" +
                     "Best Regards, IT academy");
             message.setSentDate(new Date());
@@ -131,8 +124,7 @@ public class ApplicationFormService {
         String currentDateTime = dateFormat.format(new Date());
         formToAdd.put( "dateTime", currentDateTime);
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
-        String toHash = new String(digest.digest(uniqueId.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
-        formToAdd.put("idHash", toHash);
+        formToAdd.put("idHash", hashService.getHash(uniqueId));
         collection.save(formToAdd);
         sendMail(setApplicationForm(formToAdd));
         return setApplicationForm(formToAdd);
