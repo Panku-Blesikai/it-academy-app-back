@@ -132,7 +132,7 @@ public class ApplicationFormService {
         formToAdd.put( "dateTime", currentDateTime);
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
         String toHash = new String(digest.digest(uniqueId.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
-        formToAdd.put("linkHash", toHash);
+        formToAdd.put("idHash", toHash);
         collection.save(formToAdd);
         sendMail(setApplicationForm(formToAdd));
         return setApplicationForm(formToAdd);
@@ -154,7 +154,7 @@ public class ApplicationFormService {
         String answerInfoAboutAcademy = basicDBObject.getString("answerInfoAboutAcademy");
         String status = basicDBObject.getString("status");
         String dateTime = basicDBObject.getString("dateTime");
-        String linkHash = basicDBObject.getString("linkHash");
+        String idHash = basicDBObject.getString("idHash");
         ApplicationForm applicationForm = new ApplicationForm();
         applicationForm.setId(id);
         applicationForm.setEmail(email);
@@ -170,7 +170,7 @@ public class ApplicationFormService {
         applicationForm.setAnswerInfoAboutAcademy(answerInfoAboutAcademy);
         applicationForm.setStatus(status);
         applicationForm.setDateTime(dateTime);
-        applicationForm.setLinkHash(linkHash);
+        applicationForm.setIdHash(idHash);
         return applicationForm;
     }
 }

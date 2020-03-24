@@ -19,7 +19,7 @@ public class ApplicationForm {
     private String answerInfoAboutAcademy;
     private String status;
     private String  dateTime;
-    private String linkHash;
+    private String idHash;
 
 
     public ApplicationForm() {
@@ -41,12 +41,12 @@ public class ApplicationForm {
         this.dateTime = dateTime;
     }
 
-    public String getLinkHash() {
-        return linkHash;
+    public String getIdHash() {
+        return idHash;
     }
 
-    public void setLinkHash(String linkHash) {
-        this.linkHash = linkHash;
+    public void setIdHash(String idHash) {
+        this.idHash = idHash;
     }
 
     public String getId() {
