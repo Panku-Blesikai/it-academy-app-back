@@ -66,7 +66,7 @@ public class ApplicationFormService {
                     "\n" +
                     "Thank you for participation, you can find your application here:\n" +
                     "\n" +
-                    "https://it-academy-app-front.herokuapp.com/applications/" + applicationForm.getIdHash() + "\n" +
+                    "https://it-academy-app-front.herokuapp.com/application/" + applicationForm.getIdHash() + "\n" +
                     "\n" +
                     "Best Regards, IT academy");
             message.setSentDate(new Date());
