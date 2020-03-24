@@ -26,8 +26,8 @@ public class WebController {
     }
 
     @GetMapping(value = "/applications/{idHash}")
-    public ApplicationForm getApplicationFormById(@PathVariable("idHash") ObjectId id) throws IncorrectDataException {
-        return applicationFormService.findById(id);
+    public ApplicationForm getApplicationFormById(@PathVariable("idHash") String id) throws IncorrectDataException {
+        return applicationFormService.findByIdHash(id);
     }
 
     @PutMapping (value = "/applications")

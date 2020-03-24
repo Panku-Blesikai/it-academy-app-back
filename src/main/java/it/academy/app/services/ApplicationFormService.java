@@ -86,6 +86,15 @@ public class ApplicationFormService {
         return setApplicationForm(dbObject);
     }
 
+    public ApplicationForm findByIdHash(String id) throws IncorrectDataException {
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("idHash", id);
+        BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
+        if (dbObject == null)
+            throw new IncorrectDataException("Incorrect id");
+        return setApplicationForm(dbObject);
+    }
+
     public List<ApplicationForm> allApplications() {
         DBCursor cursor = collection.find();
         List<ApplicationForm> applicationForms = new ArrayList<>();
