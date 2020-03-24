@@ -6,32 +6,21 @@ public class ApplicationForm {
 
     @Id
     private String id;
-
     private String email;
-
     private String education;
-
     private String name;
-
     private String surname;
-
     private String tel;
-
     private String answerFreeTimeActivity;
-
     private String answerThreePartAgreement;
-
     private String answerAvailable14To18;
-
     private String answerMotivation;
-
     private String answerExperience;
-
     private String answerInfoAboutAcademy;
-
     private String status;
-
     private String  dateTime;
+    private String linkHash;
+
 
     public ApplicationForm() {
     }
@@ -50,6 +39,14 @@ public class ApplicationForm {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getLinkHash() {
+        return linkHash;
+    }
+
+    public void setLinkHash(String linkHash) {
+        this.linkHash = linkHash;
     }
 
     public String getId() {
