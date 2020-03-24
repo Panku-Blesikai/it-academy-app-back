@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,10 +27,16 @@ public class ApplicationFormService {
     DB db = mongo.getDB("heroku_6b64t1nj");
     DBCollection collection = db.getCollection("applicationForm");
     DateFormat dateFormat;
+    MessageDigest digest;
 
 
     public ApplicationFormService() {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -119,7 +128,11 @@ public class ApplicationFormService {
         formToAdd.put("answerExperience", applicationForm.getAnswerExperience());
         formToAdd.put("answerInfoAboutAcademy", applicationForm.getAnswerInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
-        formToAdd.put( "dateTime", dateFormat.format(new Date()));
+        String currentDateTime = dateFormat.format(new Date());
+        formToAdd.put( "dateTime", currentDateTime);
+        String uniqueId = currentDateTime.concat(applicationForm.getEmail());
+        String toHash = new String(digest.digest(uniqueId.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+        formToAdd.put("idHash", toHash);
         collection.save(formToAdd);
         sendMail(setApplicationForm(formToAdd));
         return setApplicationForm(formToAdd);
@@ -141,6 +154,7 @@ public class ApplicationFormService {
         String answerInfoAboutAcademy = basicDBObject.getString("answerInfoAboutAcademy");
         String status = basicDBObject.getString("status");
         String dateTime = basicDBObject.getString("dateTime");
+        String idHash = basicDBObject.getString("idHash");
         ApplicationForm applicationForm = new ApplicationForm();
         applicationForm.setId(id);
         applicationForm.setEmail(email);
@@ -156,6 +170,7 @@ public class ApplicationFormService {
         applicationForm.setAnswerInfoAboutAcademy(answerInfoAboutAcademy);
         applicationForm.setStatus(status);
         applicationForm.setDateTime(dateTime);
+        applicationForm.setIdHash(idHash);
         return applicationForm;
     }
 }
