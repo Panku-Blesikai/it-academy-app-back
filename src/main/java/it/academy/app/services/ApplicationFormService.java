@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class ApplicationFormService {
     private HashService hashService;
 
 
-    public ApplicationFormService() throws NoSuchAlgorithmException {
+    public ApplicationFormService() {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         hashService = new HashService();
     }
