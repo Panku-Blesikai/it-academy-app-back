@@ -28,7 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
         http
                 .httpBasic()
                 .and()
@@ -36,11 +35,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/application/**", "/register","/home", "/login").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and().csrf()
-                .disable();
-
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/admin")
+                .disable()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/admin");
 //                .permitAll()
 //                .and()
 //                .httpBasic();
