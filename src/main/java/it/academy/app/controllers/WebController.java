@@ -8,6 +8,11 @@ import it.academy.app.exception.IncorrectDataException;
 import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -15,16 +20,15 @@ import java.security.Principal;
 import javax.validation.Valid;
 import java.util.List;
 
+@SpringBootApplication
 @RestController
-@CrossOrigin
 public class WebController {
 
-    @Autowired
+//    @Autowired
     ApplicationFormService applicationFormService;
 
-    @Autowired
+//    @Autowired
     AdminService adminService;
-
 
     @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
@@ -64,10 +68,26 @@ public class WebController {
         return input.getName().equals(System.getenv("ADMIN_NAME")) && input.getPassword().equals(System.getenv("ADMIN_PASS"));
     }
 
-    @RequestMapping("/user")
-    public Principal user(HttpServletRequest request) {
-        String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
-        return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
+    @GetMapping("/user")
+    @ResponseBody
+    public Principal user(Principal user) {
+        return user;
+    }
+
+    @Configuration
+    protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .httpBasic().and()
+                    .authorizeRequests()
+                    .antMatchers("/application/**", "/register","/home", "/login").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
+        }
     }
 
 }
