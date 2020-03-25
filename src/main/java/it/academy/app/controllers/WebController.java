@@ -11,7 +11,9 @@ import org.bson.types.ObjectId;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 
 @SpringBootApplication
@@ -22,9 +24,18 @@ public class WebController {
     ApplicationFormService applicationFormService = new ApplicationFormService();
     AdminService adminService = new AdminService();
 
+    @RequestMapping("/login")
+    public boolean login(@RequestBody Admin user) {
+        return
+                user.getName().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
+    }
+
     @RequestMapping("/user")
-    public Principal user(Principal user) {
-        return user;
+    public Principal user(HttpServletRequest request) {
+        String authToken = request.getHeader("Authorization")
+                .substring("Basic".length()).trim();
+        return () ->  new String(Base64.getDecoder()
+                .decode(authToken)).split(":")[0];
     }
 
     @GetMapping(value = "/applications")
