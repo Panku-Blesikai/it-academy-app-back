@@ -10,7 +10,7 @@ import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
-
+import java.security.Principal;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -24,6 +24,10 @@ public class WebController {
     @Autowired
     AdminService adminService;
 
+    @RequestMapping("/user")
+    public Principal user(Principal user) {
+        return user;
+    }
 
     @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
@@ -41,6 +45,7 @@ public class WebController {
         return applicationFormService.changeStatus(applicationForm);
     }
 
+    //galbut vystysim
     @PostMapping(value = "/admin/registration")
     @ResponseBody
     public Admin createAdmin(@RequestBody Admin admin) {
