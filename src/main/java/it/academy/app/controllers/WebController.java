@@ -1,29 +1,31 @@
 package it.academy.app.controllers;
 
-import it.academy.app.admin.Admin;
+import it.academy.app.models.Admin;
 import it.academy.app.services.AdminService;
-import it.academy.app.form.ApplicationForm;
+import it.academy.app.models.ApplicationForm;
 import it.academy.app.services.ApplicationFormService;
 import it.academy.app.exception.IncorrectDataException;
 import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
-import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Base64;
+import java.security.Principal;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 public class WebController {
 
+    @Autowired
+    ApplicationFormService applicationFormService;
 
-    ApplicationFormService applicationFormService = new ApplicationFormService();
-    AdminService adminService = new AdminService();
+    @Autowired
+    AdminService adminService;
 
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
@@ -41,17 +43,17 @@ public class WebController {
 
     @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
-        return applicationFormService.allApplications();
+        return applicationFormService.getAllApplications();
     }
 
     @GetMapping(value = "/applications/{idHash}")
     public ApplicationForm getApplicationFormById(@PathVariable("idHash") String id) throws IncorrectDataException {
-        return applicationFormService.findByIdHash(id);
+        return applicationFormService.findApplicationFormByIdHash(id);
     }
 
-    @PutMapping (value = "/applications")
+    @PutMapping(value = "/applications")
     @ResponseBody
-    public ApplicationForm changeStatus(@RequestBody ApplicationForm applicationForm) throws IncorrectDataException {
+    public ApplicationForm changeStatus(@RequestBody @Valid ApplicationForm applicationForm) throws IncorrectDataException {
         return applicationFormService.changeStatus(applicationForm);
     }
 
@@ -72,7 +74,7 @@ public class WebController {
 
     @PostMapping(value = "/applications")
     @ResponseBody
-    public ApplicationForm addApplication(@RequestBody ApplicationForm applicationForm) {
+    public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
         validator.validate(applicationForm);
         return applicationFormService.createNewForm(applicationForm);
