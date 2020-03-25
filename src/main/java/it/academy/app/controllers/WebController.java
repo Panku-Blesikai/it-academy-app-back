@@ -16,7 +16,7 @@ import java.security.Principal;
 import javax.validation.Valid;
 import java.util.List;
 
-@SpringBootApplication
+//@SpringBootApplication
 @RestController
 public class WebController {
 
@@ -25,20 +25,20 @@ public class WebController {
 
     @Autowired
     AdminService adminService;
-
-    @RequestMapping("/login")
-    public boolean login(@RequestBody Admin user) {
-        return
-                user.getName().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
-    }
-
-    @RequestMapping("/user")
-    public Principal user(HttpServletRequest request) {
-        String authToken = request.getHeader("Authorization")
-                .substring("Basic".length()).trim();
-        return () ->  new String(Base64.getDecoder()
-                .decode(authToken)).split(":")[0];
-    }
+// for next sprint
+//    @RequestMapping("/login")
+//    public boolean login(@RequestBody Admin user) {
+//        return
+//                user.getName().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
+//    }
+//
+//    @RequestMapping("/user")
+//    public Principal user(HttpServletRequest request) {
+//        String authToken = request.getHeader("Authorization")
+//                .substring("Basic".length()).trim();
+//        return () ->  new String(Base64.getDecoder()
+//                .decode(authToken)).split(":")[0];
+//    }
 
     @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
