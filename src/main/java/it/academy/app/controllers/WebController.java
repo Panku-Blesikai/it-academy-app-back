@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.bson.types.ObjectId;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,8 @@ import java.security.Principal;
 import java.util.Base64;
 import java.util.List;
 
-@SpringBootApplication
 @RestController
+@CrossOrigin
 public class WebController {
 
 
@@ -25,9 +26,9 @@ public class WebController {
     AdminService adminService = new AdminService();
 
     @RequestMapping("/login")
-    public boolean login(@RequestBody Admin user) {
+    public boolean login(@RequestBody User user) {
         return
-                user.getName().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
+                user.getUsername().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
     }
 
     @RequestMapping("/user")
