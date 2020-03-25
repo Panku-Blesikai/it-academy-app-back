@@ -1,6 +1,7 @@
 package it.academy.app.controllers;
 
 import it.academy.app.admin.Admin;
+import it.academy.app.parser.Parser;
 import it.academy.app.services.AdminService;
 import it.academy.app.form.ApplicationForm;
 import it.academy.app.services.ApplicationFormService;
@@ -30,7 +31,7 @@ public class WebController {
         return applicationFormService.findByIdHash(id);
     }
 
-    @PutMapping (value = "/applications")
+    @PutMapping(value = "/applications")
     @ResponseBody
     public ApplicationForm changeStatus(@RequestBody ApplicationForm applicationForm) throws IncorrectDataException {
         return applicationFormService.changeStatus(applicationForm);
@@ -47,7 +48,7 @@ public class WebController {
     public Admin loginAdmin(@RequestBody String logInfo) throws Exception {
         Gson parser = new Gson();
         Admin input = parser.fromJson(logInfo, Admin.class);
-        return adminService.login(input.getEmail(),input.getPassword());
+        return adminService.login(input.getEmail(), input.getPassword());
     }
 
     @PostMapping(value = "/applications")
@@ -55,6 +56,8 @@ public class WebController {
     public ApplicationForm addApplication(@RequestBody ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
         validator.validate(applicationForm);
+        Parser parser = new Parser();
+        applicationForm = parser.parse(applicationForm);
         return applicationFormService.createNewForm(applicationForm);
     }
 

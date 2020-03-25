@@ -22,8 +22,8 @@ public class ApplicationFormValidator {
         FreeTimeActivityValidator freeTimeActivityValidator = new FreeTimeActivityValidator();
         freeTimeActivityValidator.validate(applicationForm.getAnswerFreeTimeActivity());
 
-        ThreePartAgreementValidator threePartAgreementValidator = new ThreePartAgreementValidator();
-        threePartAgreementValidator.validate(applicationForm.getAnswerThreePartAgreement());
+        ThreePartyAgreementValidator threePartyAgreementValidator = new ThreePartyAgreementValidator();
+        threePartyAgreementValidator.validate(applicationForm.getAnswerThreePartAgreement());
 
         Available14To18Validator available14To18Validator = new Available14To18Validator();
         available14To18Validator.validate(applicationForm.getAnswerAvailable14To18());
