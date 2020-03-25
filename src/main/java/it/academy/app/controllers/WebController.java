@@ -8,9 +8,6 @@ import it.academy.app.exception.IncorrectDataException;
 import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -18,26 +15,16 @@ import java.security.Principal;
 import javax.validation.Valid;
 import java.util.List;
 
-@SpringBootApplication
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class WebController {
 
-//    @Autowired
+    @Autowired
     ApplicationFormService applicationFormService;
 
-//    @Autowired
+    @Autowired
     AdminService adminService;
 
-//    @RequestMapping("/login")
-//    public boolean login(@RequestBody SecurityProperties.User user) {
-//        return
-//                user.getName().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
-//    }
-    @RequestMapping("/login")
-    public String login() {
-        return "auth successful";
-    }
 
     @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
@@ -55,6 +42,14 @@ public class WebController {
         return applicationFormService.changeStatus(applicationForm);
     }
 
+    @PostMapping(value = "/applications")
+    @ResponseBody
+    public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {
+        ApplicationFormValidator validator = new ApplicationFormValidator();
+        validator.validate(applicationForm);
+        return applicationFormService.createNewForm(applicationForm);
+    }
+
     //galbut vystysim
     @PostMapping(value = "/admin/registration")
     @ResponseBody
@@ -62,20 +57,17 @@ public class WebController {
         return adminService.create(admin);
     }
 
-    @PostMapping(value = "/admin/login")
-    @ResponseBody
-    public Admin loginAdmin(@RequestBody String logInfo) throws Exception {
+    @RequestMapping(value = "/login")
+    public boolean login(@RequestBody String logInfo) throws Exception {
         Gson parser = new Gson();
         Admin input = parser.fromJson(logInfo, Admin.class);
-        return adminService.login(input.getEmail(),input.getPassword());
+        return input.getName().equals("ADMIN_NAME") && input.getPassword().equals("ADMIN_PASS");
     }
 
-    @PostMapping(value = "/applications")
-    @ResponseBody
-    public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {
-        ApplicationFormValidator validator = new ApplicationFormValidator();
-        validator.validate(applicationForm);
-        return applicationFormService.createNewForm(applicationForm);
+    @RequestMapping("/user")
+    public Principal user(HttpServletRequest request) {
+        String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
+        return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
     }
 
 }

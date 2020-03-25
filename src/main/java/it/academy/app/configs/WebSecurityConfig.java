@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser(System.getenv("ADMIN_NAME"))
                 .password(System.getenv("ADMIN_PASS"))
-                .roles("USER");
+                .roles("ADMIN");
     }
 
     @Override
@@ -32,16 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/application/**", "/register","/home", "/login").permitAll()
+                .antMatchers("/application/**", "/register","/home", "/login").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and().csrf()
-                .disable()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/admin");
-//                .permitAll()
-//                .and()
-//                .httpBasic();
+                .disable();
     }
 ////
 //    @Bean
