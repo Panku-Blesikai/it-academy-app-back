@@ -61,7 +61,7 @@ public class WebController {
     public boolean login(@RequestBody String logInfo) throws Exception {
         Gson parser = new Gson();
         Admin input = parser.fromJson(logInfo, Admin.class);
-        return input.getName().equals("ADMIN_NAME") && input.getPassword().equals("ADMIN_PASS");
+        return input.getName().equals(System.getenv("ADMIN_NAME")) && input.getPassword().equals(System.getenv("ADMIN_PASS"));
     }
 
     @RequestMapping("/user")
