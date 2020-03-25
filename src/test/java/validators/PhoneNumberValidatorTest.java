@@ -1,10 +1,10 @@
 package validators;
 
-import it.academy.app.validators.TelNumberValidator;
+import it.academy.app.validators.PhoneNumberValidator;
 import org.junit.Test;
 
-public class TelNumberValidatorTest {
-    private TelNumberValidator telNumberValidator = new TelNumberValidator();
+public class PhoneNumberValidatorTest {
+    private PhoneNumberValidator telNumberValidator = new PhoneNumberValidator();
 
     @Test(expected = Exception.class)
     public void shouldFailWhenNumberFieldIsEmpty() {

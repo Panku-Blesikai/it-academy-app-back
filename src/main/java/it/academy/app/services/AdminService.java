@@ -1,17 +1,20 @@
 package it.academy.app.services;
 
-import it.academy.app.admin.Admin;
-import it.academy.app.exception.IncorrectDataException;
 import com.mongodb.*;
+import it.academy.app.models.Admin;
+import it.academy.app.exception.IncorrectDataException;
 import it.academy.app.repositories.AdminRepository;
+import it.academy.app.shared.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AdminService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv("MONGODB_URI")));
-    DB db = mongo.getDB("heroku_6b64t1nj");
-    DBCollection collection = db.getCollection("admin");
+    MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));
+    DB db = mongo.getDB(System.getenv(Constants.DB_NAME));
+    DBCollection collection = db.getCollection(System.getenv(Constants.COLLECTION_ADMIN));
 
     public AdminService() {
     }
@@ -20,7 +23,7 @@ public class AdminService {
     AdminRepository adminRepository;
 
     public String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12));
+        return BCrypt.hashpw(password, BCrypt.gensalt(Constants.LOG_ROUNDS));
     }
 
     public Admin login(String email, String password) throws Exception {
@@ -32,9 +35,9 @@ public class AdminService {
     }
 
     public Admin findUserByEmail(String logEmail) throws IncorrectDataException {
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("email", logEmail);
-        BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
+        BasicDBObject query = new BasicDBObject();
+        query.put("email", logEmail);
+        BasicDBObject dbObject = (BasicDBObject) collection.findOne(query);
         if (dbObject == null)
             throw new IncorrectDataException("Incorrect email");
         return setAdmin(dbObject);
@@ -53,19 +56,13 @@ public class AdminService {
         return  setAdmin(adminToAdd);
     }
     public Admin setAdmin(BasicDBObject basicDBObject){
-        String id = basicDBObject.getString("_id");
-        String email = basicDBObject.getString("email");
-        String password = basicDBObject.getString("password");
-        String name = basicDBObject.getString("name");
-        String surname = basicDBObject.getString("surname");
-        String role = basicDBObject.getString("role");
         Admin admin = new Admin();
-        admin.setId(id);
-        admin.setEmail(email);
-        admin.setPassword(password);
-        admin.setName(name);
-        admin.setSurname(surname);
-        admin.setRole(role);
+        admin.setId(basicDBObject.getString("_id"));
+        admin.setEmail(basicDBObject.getString("email"));
+        admin.setPassword(basicDBObject.getString("password"));
+        admin.setName(basicDBObject.getString("name"));
+        admin.setSurname(basicDBObject.getString("surname"));
+        admin.setRole(basicDBObject.getString("role"));
         return admin;
     }
 }

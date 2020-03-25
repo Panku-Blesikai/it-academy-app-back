@@ -1,14 +1,17 @@
 package it.academy.app.services;
 
-import it.academy.app.exception.IncorrectDataException;
-import it.academy.app.form.ApplicationForm;
-import it.academy.app.repositories.ApplicationFormRepository;
-import it.academy.app.validators.StatusChangeValidator;
 import com.mongodb.*;
+import it.academy.app.exception.IncorrectDataException;
+import it.academy.app.models.ApplicationForm;
+import it.academy.app.repositories.ApplicationFormRepository;
+import it.academy.app.shared.Constants;
+import it.academy.app.validators.StatusChangeValidator;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.text.DateFormat;
@@ -18,11 +21,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+
+@Service
 public class ApplicationFormService {
 
-    private MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv("MONGODB_URI")));
-    private DB db = mongo.getDB("heroku_6b64t1nj");
-    private DBCollection collection = db.getCollection("applicationForm");
+    private MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));
+    private DB db = mongo.getDB(System.getenv(Constants.DB_NAME));
+    private DBCollection collection = db.getCollection(System.getenv(Constants.COLLECTION_APPLICATIONFORM));
     private DateFormat dateFormat;
     private HashService hashService;
 
@@ -36,6 +41,24 @@ public class ApplicationFormService {
     ApplicationFormRepository applicationFormRepository;
 
     public void sendMail(ApplicationForm applicationForm) {
+        Properties props = setupProps();
+        final String username = Constants.EMAIL;
+        final String password = System.getenv("EMAIL_PASS");
+        try {
+            Session session = Session.getDefaultInstance(props,
+                    new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+            Message message = setupMessage(session, applicationForm);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Properties setupProps() {
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         Properties props = System.getProperties();
         props.setProperty("mail.smtp.host", "smtp.gmail.com");
@@ -47,55 +70,46 @@ public class ApplicationFormService {
         props.put("mail.debug", "true");
         props.put("mail.store.protocol", "pop3");
         props.put("mail.transport.protocol", "smtp");
-        final String username = "pankublesikai@gmail.com";
-        final String password = System.getenv("EMAIL_PASS");
-        try {
-            Session session = Session.getDefaultInstance(props,
-                    new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
-                        }
-                    });
-            Message message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress("pankublesikai@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(applicationForm.getEmail(), false));
-            message.setSubject("IT academy");
-            message.setText("Dear " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
-                    "\n" +
-                    "Thank you for participation, you can find your application here:\n" +
-                    "\n" +
-                    "https://it-academy-app-front.herokuapp.com/applications/" + applicationForm.getIdHash() + "\n" +
-                    "\n" +
-                    "Best Regards, IT academy");
-            message.setSentDate(new Date());
-            Transport.send(message);
-//            System.out.println("Message sent.");
-        } catch (MessagingException e) {
-            System.out.println("Error, cause: " + e);
-        }
+        return props;
     }
 
-    public ApplicationForm findById(ObjectId id) throws IncorrectDataException {
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("_id", id);
-        BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
+    public Message setupMessage(Session session, ApplicationForm applicationForm) throws MessagingException {
+        Message message = new MimeMessage(session);
+
+        message.setFrom(new InternetAddress(Constants.EMAIL));
+        message.setRecipients(Message.RecipientType.TO,
+                InternetAddress.parse(applicationForm.getEmail(), false));
+        message.setSubject("IT academy");
+        message.setText("Dear " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
+                "\n" +
+                "Thank you for participation, you can find your application here:\n" +
+                "\n" +
+                "https://it-academy-app-front.herokuapp.com/applications/" + applicationForm.getIdHash() + "\n" +
+                "\n" +
+                "Best Regards, IT academy");
+        message.setSentDate(new Date());
+        return message;
+    }
+
+    public ApplicationForm findApplicationFormById(ObjectId id) throws IncorrectDataException {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", id);
+        BasicDBObject dbObject = (BasicDBObject) collection.findOne(query);
         if (dbObject == null)
             throw new IncorrectDataException("Incorrect id");
         return setApplicationForm(dbObject);
     }
 
-    public ApplicationForm findByIdHash(String id) throws IncorrectDataException {
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("idHash", id);
-        BasicDBObject dbObject = (BasicDBObject) collection.findOne(whereQuery);
+    public ApplicationForm findApplicationFormByIdHash(String id) throws IncorrectDataException {
+        BasicDBObject query = new BasicDBObject();
+        query.put("idHash", id);
+        BasicDBObject dbObject = (BasicDBObject) collection.findOne(query);
         if (dbObject == null)
             throw new IncorrectDataException("Incorrect id");
         return setApplicationForm(dbObject);
     }
 
-    public List<ApplicationForm> allApplications() {
+    public List<ApplicationForm> getAllApplications() {
         DBCursor cursor = collection.find();
         List<ApplicationForm> applicationForms = new ArrayList<>();
         while (cursor.hasNext()) {
@@ -107,12 +121,12 @@ public class ApplicationFormService {
     public ApplicationForm changeStatus(ApplicationForm applicationForm) throws IncorrectDataException {
         ObjectId objectId = new ObjectId(applicationForm.getId());
         StatusChangeValidator validator = new StatusChangeValidator();
-        validator.checkIsStatusInProgress(findById(objectId).getStatus());
+        validator.checkIsStatusInProgress(findApplicationFormById(objectId).getStatus());
         BasicDBObject searchQuery = new BasicDBObject().append("_id", objectId);
         BasicDBObject newStatus = new BasicDBObject().append("status", applicationForm.getStatus());
         BasicDBObject newDocument = new BasicDBObject().append("$set", newStatus);
         collection.update(searchQuery, newDocument);
-        return findById(objectId);
+        return findApplicationFormById(objectId);
     }
 
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
@@ -121,13 +135,13 @@ public class ApplicationFormService {
         formToAdd.put("education", applicationForm.getEducation());
         formToAdd.put("name", applicationForm.getName());
         formToAdd.put("surname", applicationForm.getSurname());
-        formToAdd.put("tel", applicationForm.getTel());
-        formToAdd.put("answerFreeTimeActivity", applicationForm.getAnswerFreeTimeActivity());
-        formToAdd.put("answerThreePartAgreement", applicationForm.getAnswerThreePartAgreement());
-        formToAdd.put("answerAvailable14To18", applicationForm.getAnswerAvailable14To18());
-        formToAdd.put("answerMotivation", applicationForm.getAnswerMotivation());
-        formToAdd.put("answerExperience", applicationForm.getAnswerExperience());
-        formToAdd.put("answerInfoAboutAcademy", applicationForm.getAnswerInfoAboutAcademy());
+        formToAdd.put("phone", applicationForm.getPhone());
+        formToAdd.put("freeTimeActivity", applicationForm.getFreeTimeActivity());
+        formToAdd.put("threePartyAgreement", applicationForm.getThreePartAgreement());
+        formToAdd.put("available14To18", applicationForm.getAvailable14To18());
+        formToAdd.put("motivation", applicationForm.getMotivation());
+        formToAdd.put("experience", applicationForm.getExperience());
+        formToAdd.put("infoAboutAcademy", applicationForm.getInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
         String currentDateTime = dateFormat.format(new Date());
         formToAdd.put( "dateTime", currentDateTime);
@@ -140,37 +154,22 @@ public class ApplicationFormService {
 
 
     public ApplicationForm setApplicationForm(BasicDBObject basicDBObject) {
-        String id = basicDBObject.getString("_id");
-        String email = basicDBObject.getString("email");
-        String education = basicDBObject.getString("education");
-        String name = basicDBObject.getString("name");
-        String surname = basicDBObject.getString("surname");
-        String tel = basicDBObject.getString("tel");
-        String answerFreeTimeActivity = basicDBObject.getString("answerFreeTimeActivity");
-        String answerThreePartAgreement = basicDBObject.getString("answerThreePartAgreement");
-        String answerAvailable14To18 = basicDBObject.getString("answerAvailable14To18");
-        String answerMotivation = basicDBObject.getString("answerMotivation");
-        String answerExperience = basicDBObject.getString("answerExperience");
-        String answerInfoAboutAcademy = basicDBObject.getString("answerInfoAboutAcademy");
-        String status = basicDBObject.getString("status");
-        String dateTime = basicDBObject.getString("dateTime");
-        String idHash = basicDBObject.getString("idHash");
         ApplicationForm applicationForm = new ApplicationForm();
-        applicationForm.setId(id);
-        applicationForm.setEmail(email);
-        applicationForm.setName(name);
-        applicationForm.setSurname(surname);
-        applicationForm.setTel(tel);
-        applicationForm.setEducation(education);
-        applicationForm.setAnswerFreeTimeActivity(answerFreeTimeActivity);
-        applicationForm.setAnswerThreePartAgreement(answerThreePartAgreement);
-        applicationForm.setAnswerAvailable14To18(answerAvailable14To18);
-        applicationForm.setAnswerMotivation(answerMotivation);
-        applicationForm.setAnswerExperience(answerExperience);
-        applicationForm.setAnswerInfoAboutAcademy(answerInfoAboutAcademy);
-        applicationForm.setStatus(status);
-        applicationForm.setDateTime(dateTime);
-        applicationForm.setIdHash(idHash);
+        applicationForm.setId(basicDBObject.getString("_id"));
+        applicationForm.setEmail(basicDBObject.getString("email"));
+        applicationForm.setName(basicDBObject.getString("name"));
+        applicationForm.setSurname(basicDBObject.getString("surname"));
+        applicationForm.setPhone(basicDBObject.getString("phone"));
+        applicationForm.setEducation(basicDBObject.getString("education"));
+        applicationForm.setFreeTimeActivity(basicDBObject.getString("freeTimeActivity"));
+        applicationForm.setThreePartAgreement(basicDBObject.getString("threePartyAgreement"));
+        applicationForm.setAvailable14To18(basicDBObject.getString("available14To18"));
+        applicationForm.setMotivation(basicDBObject.getString("motivation"));
+        applicationForm.setExperience(basicDBObject.getString("experience"));
+        applicationForm.setInfoAboutAcademy(basicDBObject.getString("infoAboutAcademy"));
+        applicationForm.setStatus(basicDBObject.getString("status"));
+        applicationForm.setDateTime(basicDBObject.getString("dateTime"));
+        applicationForm.setIdHash(basicDBObject.getString("idHash"));
         return applicationForm;
     }
 }
