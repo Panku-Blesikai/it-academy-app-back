@@ -8,6 +8,7 @@ import it.academy.app.exception.IncorrectDataException;
 import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
