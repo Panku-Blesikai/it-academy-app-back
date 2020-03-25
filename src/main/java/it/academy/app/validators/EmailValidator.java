@@ -9,10 +9,6 @@ public class EmailValidator extends Validator<String> {
     @Override
     public void validate(String attribute) {
         attribute = attribute.trim();
-
-        isStringEmpty(attribute);
-        doesNotExceedLimit(attribute, AnswerLength.shortInfoAnswer.getValue());
-
         checkIfEmailFormIsValid(attribute);
     }
 

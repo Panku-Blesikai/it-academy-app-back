@@ -7,9 +7,6 @@ public class NameValidator extends Validator<String> {
 
         attribute = attribute.trim();
 
-        checkIfFieldIsEmpty(attribute);
-        doesNotExceedLimit(attribute, AnswerLength.shortInfoAnswer.getValue());
-
         checkEveryNameInString(attribute);
     }
 

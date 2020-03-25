@@ -9,9 +9,6 @@ public class SurnameValidator extends Validator<String> {
     public void validate(String attribute) {
         attribute = attribute.trim();
 
-        checkIfFieldIsEmpty(attribute);
-        doesNotExceedLimit(attribute, AnswerLength.shortInfoAnswer.getValue());
-
         doesStringContainOnlyLettersSpacesOrDash(attribute);
 
         checkNumberOfWords(attribute);

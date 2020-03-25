@@ -21,7 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
                 .httpBasic()
                 .and()
@@ -30,13 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/admin")
-//                .permitAll()
-//                .and()
-//                .httpBasic();
     }
 
     @Bean
