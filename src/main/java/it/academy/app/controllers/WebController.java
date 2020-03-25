@@ -9,7 +9,8 @@ import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -17,28 +18,25 @@ import java.security.Principal;
 import javax.validation.Valid;
 import java.util.List;
 
+@SpringBootApplication
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class WebController {
 
-    @Autowired
+//    @Autowired
     ApplicationFormService applicationFormService;
 
-    @Autowired
+//    @Autowired
     AdminService adminService;
 
+//    @RequestMapping("/login")
+//    public boolean login(@RequestBody SecurityProperties.User user) {
+//        return
+//                user.getName().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
+//    }
     @RequestMapping("/login")
-    public boolean login(@RequestBody User user) {
-        return
-                user.getUsername().equals("ADMIN_NAME") && user.getPassword().equals("ADMIN_PASS");
-    }
-
-    @RequestMapping("/user")
-    public Principal user(HttpServletRequest request) {
-        String authToken = request.getHeader("Authorization")
-                .substring("Basic".length()).trim();
-        return () ->  new String(Base64.getDecoder()
-                .decode(authToken)).split(":")[0];
+    public String login() {
+        return "auth successful";
     }
 
     @GetMapping(value = "/applications")
