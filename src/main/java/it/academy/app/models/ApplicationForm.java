@@ -45,7 +45,7 @@ public class ApplicationForm {
     @NotNull
     @NotEmpty
     @Size(max = longQuestionAnswer)
-    private String threePartAgreement;
+    private String threePartyAgreement;
 
     @NotNull
     @NotEmpty
@@ -85,6 +85,10 @@ public class ApplicationForm {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDateTime() {
+        return dateTime;
     }
 
     public void setDateTime(String dateTime) {
@@ -155,12 +159,12 @@ public class ApplicationForm {
         this.freeTimeActivity = freeTimeActivity;
     }
 
-    public String getThreePartAgreement() {
-        return threePartAgreement;
+    public String getThreePartyAgreement() {
+        return threePartyAgreement;
     }
 
-    public void setThreePartAgreement(String threePartAgreement) {
-        this.threePartAgreement = threePartAgreement;
+    public void setThreePartyAgreement(String threePartyAgreement) {
+        this.threePartyAgreement = threePartyAgreement;
     }
 
     public String getAvailable14To18() {

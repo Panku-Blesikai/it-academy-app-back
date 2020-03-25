@@ -137,7 +137,7 @@ public class ApplicationFormService {
         formToAdd.put("surname", applicationForm.getSurname());
         formToAdd.put("phone", applicationForm.getPhone());
         formToAdd.put("freeTimeActivity", applicationForm.getFreeTimeActivity());
-        formToAdd.put("threePartyAgreement", applicationForm.getThreePartAgreement());
+        formToAdd.put("threePartyAgreement", applicationForm.getThreePartyAgreement());
         formToAdd.put("available14To18", applicationForm.getAvailable14To18());
         formToAdd.put("motivation", applicationForm.getMotivation());
         formToAdd.put("experience", applicationForm.getExperience());
@@ -162,7 +162,7 @@ public class ApplicationFormService {
         applicationForm.setPhone(basicDBObject.getString("phone"));
         applicationForm.setEducation(basicDBObject.getString("education"));
         applicationForm.setFreeTimeActivity(basicDBObject.getString("freeTimeActivity"));
-        applicationForm.setThreePartAgreement(basicDBObject.getString("threePartyAgreement"));
+        applicationForm.setThreePartyAgreement(basicDBObject.getString("threePartyAgreement"));
         applicationForm.setAvailable14To18(basicDBObject.getString("available14To18"));
         applicationForm.setMotivation(basicDBObject.getString("motivation"));
         applicationForm.setExperience(basicDBObject.getString("experience"));
