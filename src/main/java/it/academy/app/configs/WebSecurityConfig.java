@@ -1,14 +1,18 @@
 package it.academy.app.configs;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
+//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -18,9 +22,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests().antMatchers("/applications/add", "/admin/**").permitAll()
-                .anyRequest().fullyAuthenticated().and().httpBasic();
+
+        http
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/application/**", "/register","/home", "/login").permitAll()
+                .anyRequest().authenticated()
+                .and().csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/admin")
+//                .permitAll()
+//                .and()
+//                .httpBasic();
     }
 
     @Bean

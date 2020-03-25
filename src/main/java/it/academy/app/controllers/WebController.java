@@ -8,10 +8,12 @@ import it.academy.app.exception.IncorrectDataException;
 import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.bson.types.ObjectId;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SpringBootApplication
 @RestController
 public class WebController {
 
