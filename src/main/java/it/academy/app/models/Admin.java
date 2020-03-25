@@ -1,6 +1,5 @@
-package it.academy.app.admin;
+package it.academy.app.models;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class Admin {
@@ -26,10 +25,6 @@ public class Admin {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getEmail() {
@@ -62,16 +57,5 @@ public class Admin {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
     }
 }

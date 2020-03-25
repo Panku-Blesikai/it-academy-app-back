@@ -1,10 +1,13 @@
 package it.academy.app.services;
 
+import org.springframework.stereotype.Service;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Service
 public class HashService {
 
 
