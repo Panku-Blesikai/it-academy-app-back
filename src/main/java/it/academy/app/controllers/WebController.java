@@ -62,7 +62,7 @@ public class WebController {
     }
 
     @RequestMapping(value = "/login")
-    public boolean login(@RequestBody String logInfo) throws Exception {
+    public boolean login(@RequestBody String logInfo) {
         Gson parser = new Gson();
         Admin input = parser.fromJson(logInfo, Admin.class);
         return input.getName().equals(System.getenv("ADMIN_NAME")) && input.getPassword().equals(System.getenv("ADMIN_PASS"));
@@ -81,7 +81,7 @@ public class WebController {
             http
                     .httpBasic().and()
                     .authorizeRequests()
-                    .antMatchers("/application/**", "/register","/home", "/login").permitAll()
+                    .antMatchers("/applications").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .csrf()
