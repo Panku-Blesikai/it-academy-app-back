@@ -67,8 +67,8 @@ public class ApplicationForm {
     @Size(max = longQuestionAnswer)
     private String infoAboutAcademy;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String status;
 
     private String  dateTime;
