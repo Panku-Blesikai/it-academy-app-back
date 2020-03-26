@@ -79,14 +79,14 @@ public class ApplicationFormService {
         message.setFrom(new InternetAddress(Constants.EMAIL));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(applicationForm.getEmail(), false));
-        message.setSubject("IT academy");
-        message.setText("Dear " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
+        message.setSubject("IT akademija");
+        message.setText("Gerb. " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
                 "\n" +
-                "Thank you for participation, you can find your application here:\n" +
+                "Ačiū už jūsų registraciją, savo registracijos anketą galite rasti čia:\n" +
                 "\n" +
-                "https://it-academy-app-front.herokuapp.com/applications/" + applicationForm.getIdHash() + "\n" +
+                "https://it-academy-app-front.herokuapp.com/application/" + applicationForm.getIdHash() + "\n" +
                 "\n" +
-                "Best Regards, IT academy");
+                "Geros dienos, IT akademija");
         message.setSentDate(new Date());
         return message;
     }
