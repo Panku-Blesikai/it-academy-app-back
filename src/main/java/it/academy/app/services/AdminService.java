@@ -51,18 +51,18 @@ public class AdminService {
         adminToAdd.put("password", admin.getPassword());
         adminToAdd.put("name", admin.getName());
         adminToAdd.put("surname", admin.getSurname());
-        adminToAdd.put("role", admin.getRole());
+        adminToAdd.put("role", admin.getStatus());
         collection.save(adminToAdd);
         return  setAdmin(adminToAdd);
     }
     public Admin setAdmin(BasicDBObject basicDBObject){
-        Admin admin = new Admin();
+        Admin admin = new Admin("role");
         admin.setId(basicDBObject.getString("_id"));
         admin.setEmail(basicDBObject.getString("email"));
         admin.setPassword(basicDBObject.getString("password"));
         admin.setName(basicDBObject.getString("name"));
         admin.setSurname(basicDBObject.getString("surname"));
-        admin.setRole(basicDBObject.getString("role"));
+        admin.setStatus(basicDBObject.getString("role"));
         return admin;
     }
 }
