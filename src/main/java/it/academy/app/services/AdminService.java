@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class AdminService {
 
     MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));

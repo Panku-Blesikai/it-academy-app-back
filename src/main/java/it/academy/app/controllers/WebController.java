@@ -16,10 +16,10 @@ import java.util.List;
 @RestController
 public class WebController {
 
-    @Autowired
+//    @Autowired
     ApplicationFormService applicationFormService;
 
-    @Autowired
+//    @Autowired
     AdminService adminService;
 
     @GetMapping(value = "/applications")
