@@ -8,15 +8,7 @@ import it.academy.app.exception.IncorrectDataException;
 import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.security.Principal;
 import javax.validation.Valid;
 import java.util.List;
 
