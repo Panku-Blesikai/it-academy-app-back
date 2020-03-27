@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .withUser(System.getenv("ADMIN_NAME"))
-                .password(System.getenv("ADMIN_PASS"))
+                .password("{noop}" + System.getenv("ADMIN_PASS"))
                 .roles("ADMIN");
     }
 
