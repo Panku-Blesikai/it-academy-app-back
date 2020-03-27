@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser(System.getenv("ADMIN_NAME"))
                 .password("{noop}" + System.getenv("ADMIN_PASS"))
-                .roles("ADMIN");
+                .roles("USER");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().
 
                 authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/application/**")
+                .antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

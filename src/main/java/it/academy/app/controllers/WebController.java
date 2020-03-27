@@ -1,6 +1,7 @@
 package it.academy.app.controllers;
 
 import it.academy.app.models.Admin;
+import it.academy.app.models.User;
 import it.academy.app.services.AdminService;
 import it.academy.app.models.ApplicationForm;
 import it.academy.app.services.ApplicationFormService;
@@ -68,8 +69,8 @@ public class WebController {
 //
     @GetMapping(produces = "application/json")
 	@RequestMapping({ "/validateLogin" })
-	public Admin validateLogin() {
-		return new Admin("User successfully authenticated");
+	public User validateLogin() {
+		return new User("User successfully authenticated");
 	}
 
 }
