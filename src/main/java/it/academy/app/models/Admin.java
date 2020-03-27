@@ -10,17 +10,18 @@ public class Admin {
     private String password;
     private String name;
     private String surname;
-    private String role;
+    private String status;
 
-    public Admin() {
+    public Admin(String status) {
+        this.status = status;
     }
 
-    public String getRole() {
-        return role;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setId(String id) {

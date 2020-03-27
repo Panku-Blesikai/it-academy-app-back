@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-//@SpringBootApplication
+@CrossOrigin()
 @RestController
 public class WebController {
 
@@ -66,20 +66,10 @@ public class WebController {
 //        return user;
 //    }
 //
-//    @Configuration
-//    protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-//        @Override
-//        protected void configure(HttpSecurity http) throws Exception {
-//            http
-//                    .httpBasic().and()
-//                    .authorizeRequests()
-//                    .antMatchers("/applications").permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                    .csrf()
-//                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-//
-//        }
-//    }
+    @GetMapping(produces = "application/json")
+	@RequestMapping({ "/validateLogin" })
+	public Admin validateLogin() {
+		return new Admin("User successfully authenticated");
+	}
 
 }
