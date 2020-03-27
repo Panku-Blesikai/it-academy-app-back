@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -39,7 +40,7 @@ public class WebController {
 //        return () ->  new String(Base64.getDecoder()
 //                .decode(authToken)).split(":")[0];
 //    }
-
+//    @Secured("ADMIN")
     @GetMapping(value = "/applications")
     public List<ApplicationForm> getAllApplications() {
         return applicationFormService.getAllApplications();
