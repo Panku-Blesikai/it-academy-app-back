@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 
-//@Service
+@Service
 public class ApplicationFormService {
 
     private MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));
@@ -36,6 +36,8 @@ public class ApplicationFormService {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         hashService = new HashService();
     }
+
+
 
     @Autowired
     ApplicationFormRepository applicationFormRepository;
