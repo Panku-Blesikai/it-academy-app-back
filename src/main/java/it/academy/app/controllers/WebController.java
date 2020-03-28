@@ -68,7 +68,7 @@ public class WebController {
 //    }
 //
     @GetMapping(produces = "application/json")
-	@RequestMapping({ "/validateLogin" })
+	@RequestMapping({ "/login" })
 	public User validateLogin() {
 		return new User("User successfully authenticated");
 	}

@@ -26,7 +26,7 @@ public class AdminService {
         return BCrypt.hashpw(password, BCrypt.gensalt(Constants.LOG_ROUNDS));
     }
 
-    public Admin login(String email, String password) throws Exception {
+    public Admin checkLoginCredentials(String email, String password) throws IncorrectDataException {
         Admin candidate = findUserByEmail(email);
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
@@ -51,18 +51,18 @@ public class AdminService {
         adminToAdd.put("password", admin.getPassword());
         adminToAdd.put("name", admin.getName());
         adminToAdd.put("surname", admin.getSurname());
-        adminToAdd.put("role", admin.getStatus());
+        adminToAdd.put("role", admin.getRole());
         collection.save(adminToAdd);
         return  setAdmin(adminToAdd);
     }
     public Admin setAdmin(BasicDBObject basicDBObject){
-        Admin admin = new Admin("role");
+        Admin admin = new Admin();
         admin.setId(basicDBObject.getString("_id"));
         admin.setEmail(basicDBObject.getString("email"));
         admin.setPassword(basicDBObject.getString("password"));
         admin.setName(basicDBObject.getString("name"));
         admin.setSurname(basicDBObject.getString("surname"));
-        admin.setStatus(basicDBObject.getString("role"));
+        admin.setRole(basicDBObject.getString("role"));
         return admin;
     }
 }
