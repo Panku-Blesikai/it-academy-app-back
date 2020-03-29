@@ -51,10 +51,4 @@ public class WebController {
         return adminService.create(admin);
     }
 
-    @GetMapping(produces = "application/json")
-	@RequestMapping({ "/login" })
-	public String validateLogin() {
-		return "User successfully authenticated";
-	}
-
 }

@@ -3,6 +3,7 @@ package it.academy.app.services;
 import it.academy.app.exception.IncorrectDataException;
 import it.academy.app.models.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +28,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (admin == null) {
             throw new UsernameNotFoundException("Admin not found with email: " + email);
         }
-        return new org.springframework.security.core.userdetails.User(admin.getEmail(), admin.getPassword(),
+        return new User(admin.getEmail(), admin.getPassword(),
                 new ArrayList<>());
     }
 }
