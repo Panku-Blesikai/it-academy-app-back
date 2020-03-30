@@ -63,7 +63,7 @@ public class PhoneNumberValidatorTest {
 
     @Test(expected = Exception.class)
     public void shouldFailWhenLongNumberFormatIsGiven() {
-        telNumberValidator.validate("+37012345678");
+        telNumberValidator.validate("+3701-23-45678");
     }
 
     @Test(expected = Exception.class)
@@ -72,5 +72,5 @@ public class PhoneNumberValidatorTest {
     }
 
     @Test
-    public void returnSuccessWhenValidFormatIsGiven() {telNumberValidator.validate("+3706-66-66666");}
+    public void returnSuccessWhenValidFormatIsGiven() {telNumberValidator.validate("+37066666666");}
 }
