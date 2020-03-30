@@ -26,20 +26,20 @@ public class AdminService {
         return BCrypt.hashpw(password, BCrypt.gensalt(Constants.LOG_ROUNDS));
     }
 
-    public Admin checkLoginCredentials(String email, String password) throws IncorrectDataException {
-        Admin candidate = findUserByEmail(email);
+    public Admin checkLoginCredentials(String username, String password) throws IncorrectDataException {
+        Admin candidate = findAdminByUsername(username);
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             throw new IncorrectDataException("Incorrect password");
         }
         return candidate;
     }
 
-    public Admin findUserByEmail(String logEmail) throws IncorrectDataException {
+    public Admin findAdminByUsername(String username) throws IncorrectDataException {
         BasicDBObject query = new BasicDBObject();
-        query.put("email", logEmail);
+        query.put("username", username);
         BasicDBObject dbObject = (BasicDBObject) collection.findOne(query);
         if (dbObject == null)
-            throw new IncorrectDataException("Incorrect email");
+            throw new IncorrectDataException("Incorrect username");
         return setAdmin(dbObject);
     }
 
@@ -47,7 +47,7 @@ public class AdminService {
         AdminService adminService = new AdminService();
         admin.setPassword(adminService.hashPassword(admin.getPassword()));
         BasicDBObject adminToAdd = new BasicDBObject();
-        adminToAdd.put("email", admin.getEmail());
+        adminToAdd.put("username", admin.getUsername());
         adminToAdd.put("password", admin.getPassword());
         adminToAdd.put("name", admin.getName());
         adminToAdd.put("surname", admin.getSurname());
@@ -58,7 +58,7 @@ public class AdminService {
     public Admin setAdmin(BasicDBObject basicDBObject){
         Admin admin = new Admin();
         admin.setId(basicDBObject.getString("_id"));
-        admin.setEmail(basicDBObject.getString("email"));
+        admin.setUsername(basicDBObject.getString("username"));
         admin.setPassword(basicDBObject.getString("password"));
         admin.setName(basicDBObject.getString("name"));
         admin.setSurname(basicDBObject.getString("surname"));

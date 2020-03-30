@@ -18,17 +18,17 @@ public class JwtUserDetailsService implements UserDetailsService {
     private AdminService adminService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Admin admin = null;
         try {
-            admin = adminService.findUserByEmail(email);
+            admin = adminService.findAdminByUsername(username);
         } catch (IncorrectDataException e) {
             e.printStackTrace();
         }
         if (admin == null) {
-            throw new UsernameNotFoundException("Admin not found with email: " + email);
+            throw new UsernameNotFoundException("Admin not found with username: " + username);
         }
-        return new User(admin.getEmail(), admin.getPassword(),
+        return new User(admin.getUsername(), admin.getPassword(),
                 new ArrayList<>());
     }
 }

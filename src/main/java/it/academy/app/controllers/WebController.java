@@ -45,10 +45,10 @@ public class WebController {
     }
 
     //galbut vystysim
-    @PostMapping(value = "/admin/registration")
-    @ResponseBody
-    public Admin createAdmin(@RequestBody Admin admin) {
-        return adminService.create(admin);
-    }
+//    @PostMapping(value = "/admin/registration")
+//    @ResponseBody
+//    public Admin createAdmin(@RequestBody Admin admin) {
+//        return adminService.create(admin);
+//    }
 
 }
