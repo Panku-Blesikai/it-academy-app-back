@@ -42,56 +42,8 @@ public class ApplicationFormService {
     @Autowired
     ApplicationFormRepository applicationFormRepository;
 
-    public void sendMail(ApplicationForm applicationForm) {
-        Properties props = setupProps();
-        final String username = Constants.EMAIL;
-        final String password = System.getenv("EMAIL_PASS");
-        try {
-            Session session = Session.getDefaultInstance(props,
-                    new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
-                        }
-                    });
-            Message message = setupMessage(session, applicationForm);
-            Transport.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Properties setupProps() {
-        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
-        Properties props = System.getProperties();
-        props.setProperty("mail.smtp.host", "smtp.gmail.com");
-        props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        props.setProperty("mail.smtp.socketFactory.fallback", "false");
-        props.setProperty("mail.smtp.port", "465");
-        props.setProperty("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.debug", "true");
-        props.put("mail.store.protocol", "pop3");
-        props.put("mail.transport.protocol", "smtp");
-        return props;
-    }
-
-    public Message setupMessage(Session session, ApplicationForm applicationForm) throws MessagingException {
-        Message message = new MimeMessage(session);
-
-        message.setFrom(new InternetAddress(Constants.EMAIL));
-        message.setRecipients(Message.RecipientType.TO,
-                InternetAddress.parse(applicationForm.getEmail(), false));
-        message.setSubject("IT academy");
-        message.setText("Dear " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
-                "\n" +
-                "Thank you for participation, you can find your application here:\n" +
-                "\n" +
-                "https://it-academy-app-front.herokuapp.com/applications/" + applicationForm.getIdHash() + "\n" +
-                "\n" +
-                "Best Regards, IT academy");
-        message.setSentDate(new Date());
-        return message;
-    }
+    @Autowired
+    EmailService emailService;
 
     public ApplicationForm findApplicationFormById(ObjectId id) throws IncorrectDataException {
         BasicDBObject query = new BasicDBObject();
@@ -128,7 +80,11 @@ public class ApplicationFormService {
         BasicDBObject newStatus = new BasicDBObject().append("status", applicationForm.getStatus());
         BasicDBObject newDocument = new BasicDBObject().append("$set", newStatus);
         collection.update(searchQuery, newDocument);
-        return findApplicationFormById(objectId);
+        ApplicationForm applicationFormWithNewStatus = findApplicationFormById(objectId);
+        if (applicationFormWithNewStatus.getStatus().equals("PATVIRTINTA")){
+            emailService.sendMail(applicationFormWithNewStatus);
+        }
+        return applicationFormWithNewStatus;
     }
 
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
@@ -150,7 +106,7 @@ public class ApplicationFormService {
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
         formToAdd.put("idHash", hashService.getHash(uniqueId));
         collection.save(formToAdd);
-        sendMail(setApplicationForm(formToAdd));
+        emailService.sendMail(setApplicationForm(formToAdd));
         return setApplicationForm(formToAdd);
     }
 
