@@ -6,7 +6,7 @@ public class Admin {
 
     @Id
     private String id;
-    private String email;
+    private String username;
     private String password;
     private String name;
     private String surname;
@@ -27,12 +27,12 @@ public class Admin {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
