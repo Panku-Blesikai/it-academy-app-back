@@ -6,11 +6,17 @@ import it.academy.app.exception.IncorrectDataException;
 import it.academy.app.repositories.AdminRepository;
 import it.academy.app.shared.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
-public class AdminService {
+public class AdminService implements UserDetailsService {
 
     MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));
     DB db = mongo.getDB(System.getenv(Constants.DB_NAME));
@@ -64,5 +70,17 @@ public class AdminService {
         admin.setSurname(basicDBObject.getString("surname"));
         admin.setRole(basicDBObject.getString("role"));
         return admin;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        Admin admin;
+        try {
+            admin = findAdminByUsername(username);
+        } catch (IncorrectDataException e) {
+            throw new UsernameNotFoundException("Username not found");
+        }
+        return new User(admin.getUsername(), admin.getPassword(),
+                new ArrayList<>());
     }
 }
