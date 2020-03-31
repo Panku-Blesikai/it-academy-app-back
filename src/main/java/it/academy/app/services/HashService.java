@@ -25,8 +25,7 @@ public class HashService {
         return toHexString(digest.digest(value.getBytes(StandardCharsets.UTF_8)));
     }
 
-    public static String toHexString(byte[] hash)
-    {
+    public static String toHexString(byte[] hash) {
         BigInteger number = new BigInteger(1, hash);
         StringBuilder hexString = new StringBuilder(number.toString(16));
         while (hexString.length() < 32) {

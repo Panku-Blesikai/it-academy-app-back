@@ -1,9 +1,9 @@
 package it.academy.app.controllers;
 
+import it.academy.app.configs.CustomAuthenticationProvider;
 import it.academy.app.configs.JwtTokenUtil;
 import it.academy.app.models.JwtRequest;
 import it.academy.app.models.JwtResponse;
-import it.academy.app.configs.CustomAuthenticationProvider;
 import it.academy.app.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

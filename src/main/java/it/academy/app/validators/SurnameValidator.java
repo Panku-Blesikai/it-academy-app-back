@@ -9,7 +9,7 @@ public class SurnameValidator extends Validator<String> {
     public void validate(String attribute) {
         attribute = attribute.trim();
 
-        if(attribute.equals("")) {
+        if (attribute.equals("")) {
             throw new ValidationException(ErrorMessages.fieldIsEmpty);
         }
 

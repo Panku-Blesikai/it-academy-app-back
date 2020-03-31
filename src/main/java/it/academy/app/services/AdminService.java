@@ -1,8 +1,8 @@
 package it.academy.app.services;
 
 import com.mongodb.*;
-import it.academy.app.models.Admin;
 import it.academy.app.exception.IncorrectDataException;
+import it.academy.app.models.Admin;
 import it.academy.app.repositories.AdminRepository;
 import it.academy.app.shared.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +59,10 @@ public class AdminService implements UserDetailsService {
         adminToAdd.put("surname", admin.getSurname());
         adminToAdd.put("role", admin.getRole());
         collection.save(adminToAdd);
-        return  setAdmin(adminToAdd);
+        return setAdmin(adminToAdd);
     }
-    public Admin setAdmin(BasicDBObject basicDBObject){
+
+    public Admin setAdmin(BasicDBObject basicDBObject) {
         Admin admin = new Admin();
         admin.setId(basicDBObject.getString("_id"));
         admin.setUsername(basicDBObject.getString("username"));

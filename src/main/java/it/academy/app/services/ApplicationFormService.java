@@ -10,16 +10,11 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 
 @Service
@@ -36,7 +31,6 @@ public class ApplicationFormService {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         hashService = new HashService();
     }
-
 
 
     @Autowired
@@ -81,7 +75,7 @@ public class ApplicationFormService {
         BasicDBObject newDocument = new BasicDBObject().append("$set", newStatus);
         collection.update(searchQuery, newDocument);
         ApplicationForm applicationFormWithNewStatus = findApplicationFormById(objectId);
-        if (applicationFormWithNewStatus.getStatus().equals("PATVIRTINTA")){
+        if (applicationFormWithNewStatus.getStatus().equals("PATVIRTINTA")) {
             emailService.sendMail(applicationFormWithNewStatus);
         }
         return applicationFormWithNewStatus;
@@ -102,7 +96,7 @@ public class ApplicationFormService {
         formToAdd.put("infoAboutAcademy", applicationForm.getInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
         String currentDateTime = dateFormat.format(new Date());
-        formToAdd.put( "dateTime", currentDateTime);
+        formToAdd.put("dateTime", currentDateTime);
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
         formToAdd.put("idHash", hashService.getHash(uniqueId));
         collection.save(formToAdd);

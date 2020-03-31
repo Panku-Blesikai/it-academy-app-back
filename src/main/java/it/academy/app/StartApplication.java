@@ -2,14 +2,12 @@ package it.academy.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
-//@EnableWebSecurity
 public class StartApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(StartApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(StartApplication.class, args);
+    }
 }
 

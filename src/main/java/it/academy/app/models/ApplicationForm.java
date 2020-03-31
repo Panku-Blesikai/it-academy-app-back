@@ -69,7 +69,7 @@ public class ApplicationForm {
 
     private String status;
 
-    private String  dateTime;
+    private String dateTime;
 
     private String idHash;
 
@@ -105,7 +105,7 @@ public class ApplicationForm {
         return id;
     }
 
-    public void setId(String  id) {
+    public void setId(String id) {
         this.id = id;
     }
 

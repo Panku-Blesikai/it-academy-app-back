@@ -35,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             authorities.add(new SimpleGrantedAuthority(admin.getRole()));
 
         } catch (IncorrectDataException e) {
-           throw new BadCredentialsException("User password is incorrect.");
+            throw new BadCredentialsException("User password is incorrect.");
         }
         return new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword(), authorities);
     }

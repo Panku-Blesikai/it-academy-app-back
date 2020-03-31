@@ -30,8 +30,7 @@ public class EmailService {
             if (applicationForm.getStatus().equals("PERŽIŪRIMA")) {
                 Message message = setupParticipationMessage(session, applicationForm);
                 Transport.send(message);
-            }
-            else {
+            } else {
                 Message message = setupSuccessMessage(session, applicationForm);
                 Transport.send(message);
             }
