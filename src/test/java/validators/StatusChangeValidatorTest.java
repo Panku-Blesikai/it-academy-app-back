@@ -9,12 +9,12 @@ public class StatusChangeValidatorTest {
 
     @Test(expected = Exception.class)
     public void ShouldFailIfStatusNotInProgress(){
-        statusChangeValidator.checkIsStatusInProgress("DECLINED");
+        statusChangeValidator.checkIsStatusInProgress("ATMESTA");
     }
 
     @Test
     public void ShouldPassIfStatusInProgress(){
-        statusChangeValidator.checkIsStatusInProgress("INPROGRESS");
+        statusChangeValidator.checkIsStatusInProgress("PERŽIŪRIMA");
     }
 
 }
