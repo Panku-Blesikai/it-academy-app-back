@@ -16,6 +16,7 @@ import static org.junit.Assert.assertThat;
 
 public class WebControllerTest {
 
+    //weird tests :)
     @Test
     public void UserDoesNotHavePermission_ToGetAllApplicationForms_then401IsReceived()
             throws IOException {

@@ -14,5 +14,4 @@ public final class Constants {
     public static final int LOG_ROUNDS = 12;
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-
 }
