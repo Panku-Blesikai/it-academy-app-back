@@ -28,10 +28,11 @@ public class AdminService implements UserDetailsService {
     @Autowired
     AdminRepository adminRepository;
 
+    //add test
     public String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(Constants.LOG_ROUNDS));
     }
-
+    //add test
     public Admin checkLoginCredentials(String username, String password) throws IncorrectDataException {
         Admin candidate = findAdminByUsername(username);
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
@@ -39,7 +40,7 @@ public class AdminService implements UserDetailsService {
         }
         return candidate;
     }
-
+    //add test
     public Admin findAdminByUsername(String username) throws IncorrectDataException {
         BasicDBObject query = new BasicDBObject();
         query.put("username", username);
@@ -61,7 +62,7 @@ public class AdminService implements UserDetailsService {
         collection.save(adminToAdd);
         return setAdmin(adminToAdd);
     }
-
+    //add test
     public Admin setAdmin(BasicDBObject basicDBObject) {
         Admin admin = new Admin();
         admin.setId(basicDBObject.getString("_id"));
@@ -72,7 +73,7 @@ public class AdminService implements UserDetailsService {
         admin.setRole(basicDBObject.getString("role"));
         return admin;
     }
-
+    //add test
     @Override
     public UserDetails loadUserByUsername(String username) {
         Admin admin;
