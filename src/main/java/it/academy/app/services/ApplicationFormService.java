@@ -39,6 +39,7 @@ public class ApplicationFormService {
     @Autowired
     EmailService emailService;
 
+    //add test
     public ApplicationForm findApplicationFormById(ObjectId id) throws IncorrectDataException {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", id);
@@ -48,6 +49,7 @@ public class ApplicationFormService {
         return setApplicationForm(dbObject);
     }
 
+    //add test
     public ApplicationForm findApplicationFormByIdHash(String id) throws IncorrectDataException {
         BasicDBObject query = new BasicDBObject();
         query.put("idHash", id);
@@ -57,6 +59,7 @@ public class ApplicationFormService {
         return setApplicationForm(dbObject);
     }
 
+    //add test
     public List<ApplicationForm> getAllApplications() {
         DBCursor cursor = collection.find();
         List<ApplicationForm> applicationForms = new ArrayList<>();
@@ -66,6 +69,7 @@ public class ApplicationFormService {
         return applicationForms;
     }
 
+    //add test
     public ApplicationForm changeStatus(ApplicationForm applicationForm) throws IncorrectDataException {
         ObjectId objectId = new ObjectId(applicationForm.getId());
         StatusChangeValidator validator = new StatusChangeValidator();
@@ -80,7 +84,7 @@ public class ApplicationFormService {
         }
         return applicationFormWithNewStatus;
     }
-
+    //add test
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
         BasicDBObject formToAdd = new BasicDBObject();
         formToAdd.put("email", applicationForm.getEmail());
@@ -95,7 +99,7 @@ public class ApplicationFormService {
         formToAdd.put("experience", applicationForm.getExperience());
         formToAdd.put("infoAboutAcademy", applicationForm.getInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
-        String currentDateTime = dateFormat.format(new Date());
+        String currentDateTime = dateFormat.format(Date.from(java.time.ZonedDateTime.now().toInstant()));
         formToAdd.put("dateTime", currentDateTime);
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
         formToAdd.put("idHash", hashService.getHash(uniqueId));
@@ -104,7 +108,7 @@ public class ApplicationFormService {
         return setApplicationForm(formToAdd);
     }
 
-
+    //add test
     public ApplicationForm setApplicationForm(BasicDBObject basicDBObject) {
         ApplicationForm applicationForm = new ApplicationForm();
         applicationForm.setId(basicDBObject.getString("_id"));
