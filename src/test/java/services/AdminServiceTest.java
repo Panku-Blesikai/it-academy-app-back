@@ -17,6 +17,8 @@ import static org.mockito.Mockito.when;
 
 public class AdminServiceTest {
 
+
+// Need help to mock MongoDB!!!
 //    @Mock
 //    private MongoClient mockClient;
 //    @Mock
