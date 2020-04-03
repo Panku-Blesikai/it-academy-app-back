@@ -37,13 +37,13 @@ public class WebController {
         return applicationFormService.changeStatus(applicationForm);
     }
 
-    @PutMapping(value = "/comments")
+    @PutMapping(value = "/applications/comment")
     @ResponseBody
     public ApplicationForm addComment(@RequestBody @Valid ApplicationForm applicationForm) throws IncorrectDataException {
         return applicationFormService.addComment(applicationForm);
     }
 
-    @PostMapping(value = "/applications/comment")
+    @PostMapping(value = "/applications")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
