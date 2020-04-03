@@ -1,6 +1,7 @@
 package it.academy.app.models;
 
 import com.mongodb.BasicDBObject;
+import it.academy.app.shared.Comment;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.annotation.Id;
 
@@ -76,7 +77,7 @@ public class ApplicationForm {
 
     private String idHash;
 
-    private List<BasicDBObject> comments;
+    private List<Comment> comments;
 
     public ApplicationForm() {
     }
@@ -201,11 +202,11 @@ public class ApplicationForm {
         this.infoAboutAcademy = infoAboutAcademy;
     }
 
-    public List<BasicDBObject> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<BasicDBObject> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

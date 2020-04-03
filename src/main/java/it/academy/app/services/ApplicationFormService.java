@@ -5,6 +5,7 @@ import it.academy.app.exception.IdNotFoundException;
 import it.academy.app.exception.IncorrectDataException;
 import it.academy.app.models.ApplicationForm;
 import it.academy.app.repositories.ApplicationFormRepository;
+import it.academy.app.shared.Comment;
 import it.academy.app.shared.Constants;
 import it.academy.app.validators.StatusChangeValidator;
 import org.apache.commons.lang3.ArrayUtils;
@@ -114,7 +115,7 @@ public class ApplicationFormService {
         formToAdd.put("experience", applicationForm.getExperience());
         formToAdd.put("infoAboutAcademy", applicationForm.getInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
-        List<BasicDBObject> comments = new ArrayList<>();
+        List<Comment> comments = new ArrayList<>();
         formToAdd.put("comments", comments);
         String currentDateTime = dateFormat.format(Date.from(java.time.ZonedDateTime.now().toInstant()));
         formToAdd.put("dateTime", currentDateTime);
@@ -143,7 +144,7 @@ public class ApplicationFormService {
         applicationForm.setStatus(basicDBObject.getString("status"));
         applicationForm.setDateTime(basicDBObject.getString("dateTime"));
         applicationForm.setIdHash(basicDBObject.getString("idHash"));
-        applicationForm.setComments((List<BasicDBObject>) basicDBObject.get("comments"));
+        applicationForm.setComments((List<Comment>) basicDBObject.get("comments"));
         return applicationForm;
     }
 }
