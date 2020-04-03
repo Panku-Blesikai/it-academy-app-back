@@ -37,6 +37,12 @@ public class WebController {
         return applicationFormService.changeStatus(applicationForm);
     }
 
+    @PutMapping(value = "/applications")
+    @ResponseBody
+    public ApplicationForm addComment(@RequestBody @Valid ApplicationForm applicationForm) throws IncorrectDataException {
+        return applicationFormService.addComment(applicationForm);
+    }
+
     @PostMapping(value = "/applications")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {

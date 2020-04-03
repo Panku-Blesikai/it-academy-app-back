@@ -1,10 +1,13 @@
 package it.academy.app.models;
 
+import com.mongodb.BasicDBObject;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class ApplicationForm {
     private final int shortInfoAnswer = 256;
@@ -73,6 +76,7 @@ public class ApplicationForm {
 
     private String idHash;
 
+    private List<BasicDBObject> comments;
 
     public ApplicationForm() {
     }
@@ -196,4 +200,13 @@ public class ApplicationForm {
     public void setInfoAboutAcademy(String infoAboutAcademy) {
         this.infoAboutAcademy = infoAboutAcademy;
     }
+
+    public List<BasicDBObject> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<BasicDBObject> comments) {
+        this.comments = comments;
+    }
+
 }

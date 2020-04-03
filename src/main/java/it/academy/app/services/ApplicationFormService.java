@@ -6,6 +6,7 @@ import it.academy.app.models.ApplicationForm;
 import it.academy.app.repositories.ApplicationFormRepository;
 import it.academy.app.shared.Constants;
 import it.academy.app.validators.StatusChangeValidator;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,19 @@ public class ApplicationFormService {
         }
         return applicationFormWithNewStatus;
     }
+
+    public ApplicationForm addComment(ApplicationForm applicationForm) throws IncorrectDataException {
+        ObjectId objectId = new ObjectId(applicationForm.getId());
+        BasicDBObject searchQuery = new BasicDBObject().append("_id", objectId);
+        BasicDBObject newComments = new BasicDBObject().append("comments", applicationForm.getComments());
+        BasicDBObject newDocument = new BasicDBObject().append("$set", newComments);
+        collection.update(searchQuery, newDocument);
+        ApplicationForm applicationFormWithNewComments = findApplicationFormById(objectId);
+        // send email
+        return applicationFormWithNewComments;
+    }
+
+
     //add test
     public ApplicationForm createNewForm(ApplicationForm applicationForm) {
         BasicDBObject formToAdd = new BasicDBObject();
@@ -99,6 +113,8 @@ public class ApplicationFormService {
         formToAdd.put("experience", applicationForm.getExperience());
         formToAdd.put("infoAboutAcademy", applicationForm.getInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
+        List<BasicDBObject> comments = new ArrayList<>();
+        formToAdd.put("comments", comments);
         String currentDateTime = dateFormat.format(Date.from(java.time.ZonedDateTime.now().toInstant()));
         formToAdd.put("dateTime", currentDateTime);
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
@@ -126,6 +142,7 @@ public class ApplicationFormService {
         applicationForm.setStatus(basicDBObject.getString("status"));
         applicationForm.setDateTime(basicDBObject.getString("dateTime"));
         applicationForm.setIdHash(basicDBObject.getString("idHash"));
+        applicationForm.setComments((List<BasicDBObject>) basicDBObject.get("comments"));
         return applicationForm;
     }
 }
