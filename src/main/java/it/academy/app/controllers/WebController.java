@@ -43,7 +43,7 @@ public class WebController {
         return applicationFormService.addComment(applicationForm);
     }
 
-    @PostMapping(value = "/applications")
+    @PostMapping(value = "/applications/comment")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
