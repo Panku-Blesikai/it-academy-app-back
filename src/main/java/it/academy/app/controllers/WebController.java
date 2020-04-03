@@ -27,13 +27,13 @@ public class WebController {
     }
 
     @GetMapping(value = "/applications/{idHash}")
-    public ApplicationForm getApplicationFormById(@PathVariable("idHash") String id) throws IncorrectDataException {
-        return applicationFormService.findApplicationFormByIdHash(id);
+    public ApplicationForm getApplicationFormById(@PathVariable("idHash") String id) {
+            return applicationFormService.findApplicationFormByIdHash(id);
     }
 
     @PutMapping(value = "/applications")
     @ResponseBody
-    public ApplicationForm changeStatus(@RequestBody @Valid ApplicationForm applicationForm) throws IncorrectDataException {
+    public ApplicationForm changeStatus(@RequestBody @Valid ApplicationForm applicationForm) {
         return applicationFormService.changeStatus(applicationForm);
     }
 
