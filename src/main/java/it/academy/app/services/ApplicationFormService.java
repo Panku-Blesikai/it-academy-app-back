@@ -1,6 +1,7 @@
 package it.academy.app.services;
 
 import com.mongodb.*;
+import it.academy.app.exception.IdNotFoundException;
 import it.academy.app.exception.IncorrectDataException;
 import it.academy.app.models.ApplicationForm;
 import it.academy.app.repositories.ApplicationFormRepository;
@@ -21,9 +22,9 @@ import java.util.List;
 @Service
 public class ApplicationFormService {
 
-    private MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));
-    private DB db = mongo.getDB(System.getenv(Constants.DB_NAME));
-    private DBCollection collection = db.getCollection(System.getenv(Constants.COLLECTION_APPLICATIONFORM));
+    private MongoClient mongo = new MongoClient(new MongoClientURI(Constants.DB_URI));
+    private DB db = mongo.getDB(Constants.DB_NAME);
+    private DBCollection collection = db.getCollection(Constants.COLLECTION_APPLICATIONFORM);
     private DateFormat dateFormat;
     private HashService hashService;
 
@@ -41,22 +42,22 @@ public class ApplicationFormService {
     EmailService emailService;
 
     //add test
-    public ApplicationForm findApplicationFormById(ObjectId id) throws IncorrectDataException {
+    public ApplicationForm findApplicationFormById(ObjectId id) throws IdNotFoundException {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", id);
         BasicDBObject dbObject = (BasicDBObject) collection.findOne(query);
         if (dbObject == null)
-            throw new IncorrectDataException("Incorrect id");
+            throw new IdNotFoundException("Incorrect id");
         return setApplicationForm(dbObject);
     }
 
     //add test
-    public ApplicationForm findApplicationFormByIdHash(String id) throws IncorrectDataException {
+    public ApplicationForm findApplicationFormByIdHash(String id) throws IdNotFoundException {
         BasicDBObject query = new BasicDBObject();
         query.put("idHash", id);
         BasicDBObject dbObject = (BasicDBObject) collection.findOne(query);
         if (dbObject == null)
-            throw new IncorrectDataException("Incorrect id");
+            throw new IdNotFoundException("Incorrect id");
         return setApplicationForm(dbObject);
     }
 
@@ -71,7 +72,7 @@ public class ApplicationFormService {
     }
 
     //add test
-    public ApplicationForm changeStatus(ApplicationForm applicationForm) throws IncorrectDataException {
+    public ApplicationForm changeStatus(ApplicationForm applicationForm) {
         ObjectId objectId = new ObjectId(applicationForm.getId());
         StatusChangeValidator validator = new StatusChangeValidator();
         validator.checkIsStatusInProgress(findApplicationFormById(objectId).getStatus());

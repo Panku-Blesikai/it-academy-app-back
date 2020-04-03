@@ -18,9 +18,9 @@ import java.util.ArrayList;
 @Service
 public class AdminService implements UserDetailsService {
 
-    MongoClient mongo = new MongoClient(new MongoClientURI(System.getenv(Constants.DB_URI)));
-    DB db = mongo.getDB(System.getenv(Constants.DB_NAME));
-    DBCollection collection = db.getCollection(System.getenv(Constants.COLLECTION_ADMIN));
+    MongoClient mongo = new MongoClient(new MongoClientURI(Constants.DB_URI));
+    DB db = mongo.getDB(Constants.DB_NAME);
+    DBCollection collection = db.getCollection(Constants.COLLECTION_ADMIN);
 
     public AdminService() {
     }
