@@ -37,7 +37,7 @@ public class WebController {
         return applicationFormService.changeStatus(applicationForm);
     }
 
-    @PutMapping(value = "/applications")
+    @PutMapping(value = "/comments")
     @ResponseBody
     public ApplicationForm addComment(@RequestBody @Valid ApplicationForm applicationForm) throws IncorrectDataException {
         return applicationFormService.addComment(applicationForm);
