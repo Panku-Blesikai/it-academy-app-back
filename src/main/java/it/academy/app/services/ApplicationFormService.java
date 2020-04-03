@@ -115,8 +115,8 @@ public class ApplicationFormService {
         formToAdd.put("experience", applicationForm.getExperience());
         formToAdd.put("infoAboutAcademy", applicationForm.getInfoAboutAcademy());
         formToAdd.put("status", "PERŽIŪRIMA");
-        List<Comment> comments = new ArrayList<>();
-        formToAdd.put("comments", comments);
+        /*List<Comment> comments = new ArrayList<>();
+        formToAdd.put("comments", comments);*/
         String currentDateTime = dateFormat.format(Date.from(java.time.ZonedDateTime.now().toInstant()));
         formToAdd.put("dateTime", currentDateTime);
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
