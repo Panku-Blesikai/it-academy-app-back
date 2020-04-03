@@ -77,7 +77,7 @@ public class ApplicationForm {
 
     private String idHash;
 
-    private List<Comment> comments;
+    private List<BasicDBObject> comments;
 
     public ApplicationForm() {
     }
@@ -202,11 +202,11 @@ public class ApplicationForm {
         this.infoAboutAcademy = infoAboutAcademy;
     }
 
-    public List<Comment> getComments() {
+    public List<BasicDBObject> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<BasicDBObject> comments) {
         this.comments = comments;
     }
 
