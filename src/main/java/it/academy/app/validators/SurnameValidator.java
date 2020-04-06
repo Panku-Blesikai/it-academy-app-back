@@ -9,20 +9,7 @@ public class SurnameValidator extends Validator<String> {
     public void validate(String attribute) {
         attribute = attribute.trim();
 
-        if (attribute.equals("")) {
-            throw new ValidationException(ErrorMessages.fieldIsEmpty);
-        }
-
         doesStringContainOnlyLettersSpacesOrDash(attribute);
-
-        // checkNumberOfWords(attribute);
-    }
-
-    private void checkNumberOfWords(String attribute) {
-        String[] words = attribute.split(" ");
-        if (words.length > 2) {
-            throw new ValidationException(ErrorMessages.moreThanTwoSurnames);
-        }
     }
 
     public void doesStringContainOnlyLettersSpacesOrDash(String word) {
