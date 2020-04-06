@@ -1,10 +1,10 @@
 package it.academy.app.parser;
 
 import it.academy.app.models.ApplicationForm;
+import org.apache.commons.lang3.text.WordUtils;
 
-import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
-public class Parser {
+public class ParserForApplicationFormAttributes {
     public ApplicationForm parse(ApplicationForm applicationForm) {
         String formattedName = wordFirstLetterToUppercase(deleteExtraSpaces(applicationForm.getName()));
         applicationForm.setName(formattedName);
@@ -31,7 +31,7 @@ public class Parser {
     }
 
     private String wordFirstLetterToUppercase(String attribute) {
-        return capitalizeFully(attribute);
+        return WordUtils.capitalizeFully((attribute));
     }
 
     private String formatTelephoneNumber(String attribute) {

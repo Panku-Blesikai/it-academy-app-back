@@ -2,6 +2,7 @@ package it.academy.app.services;
 
 import it.academy.app.models.ApplicationForm;
 import it.academy.app.shared.Constants;
+import it.academy.app.shared.Status;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -18,24 +19,24 @@ public class EmailService {
 
     public void sendMail(ApplicationForm applicationForm) {
         Properties props = setupProps();
-        final String username = Constants.EMAIL;
+        final String email = Constants.EMAIL;
         final String password = System.getenv("EMAIL_PASS");
         try {
             Session session = Session.getDefaultInstance(props,
                     new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
+                            return new PasswordAuthentication(email, password);
                         }
                     });
-            if (applicationForm.getStatus().equals("PERŽIŪRIMA")) {
+            if (applicationForm.getStatus().equals(Status.INPROGRESS.getStatusInLithuanian())) {
                 Message message = setupParticipationMessage(session, applicationForm);
                 Transport.send(message);
-            } else {
+            } else if (applicationForm.getStatus().equals(Status.ACCEPTED.getStatusInLithuanian())) {
                 Message message = setupSuccessMessage(session, applicationForm);
                 Transport.send(message);
             }
         } catch (MessagingException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 

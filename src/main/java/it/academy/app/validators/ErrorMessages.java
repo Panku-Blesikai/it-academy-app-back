@@ -1,4 +1,4 @@
-package it.academy.app.shared;
+package it.academy.app.validators;
 
 public enum ErrorMessages {
 

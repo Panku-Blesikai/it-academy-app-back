@@ -1,7 +1,6 @@
 package it.academy.app.services;
 
 import org.springframework.stereotype.Service;
-
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,14 +9,13 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class HashService {
 
-
     private MessageDigest digest;
 
     public HashService() {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 

@@ -1,4 +1,4 @@
-package it.academy.app.shared;
+package it.academy.app.models;
 
 public class Comment {
     public String author;

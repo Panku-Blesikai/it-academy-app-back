@@ -1,7 +1,6 @@
 package it.academy.app.validators;
 
 import it.academy.app.exception.ValidationException;
-import it.academy.app.shared.ErrorMessages;
 
 //Room for improvement: Regex could be used for validation
 public class SurnameValidator extends Validator<String> {

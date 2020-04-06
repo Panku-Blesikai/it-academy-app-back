@@ -1,7 +1,6 @@
 package it.academy.app.validators;
 
 import it.academy.app.exception.ValidationException;
-import it.academy.app.shared.ErrorMessages;
 
 public abstract class Validator<T> {
     public abstract void validate(T attribute);

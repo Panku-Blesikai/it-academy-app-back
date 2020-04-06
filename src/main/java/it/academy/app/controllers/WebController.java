@@ -2,10 +2,8 @@ package it.academy.app.controllers;
 
 import it.academy.app.exception.IncorrectDataException;
 import it.academy.app.models.ApplicationForm;
-import it.academy.app.parser.Parser;
 import it.academy.app.services.AdminService;
 import it.academy.app.services.ApplicationFormService;
-import it.academy.app.validators.ApplicationFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +25,14 @@ public class WebController {
     }
 
     @GetMapping(value = "/applications/{idHash}")
-    public ApplicationForm getApplicationFormById(@PathVariable("idHash") String id) {
-            return applicationFormService.findApplicationFormByIdHash(id);
+    public ApplicationForm getApplicationFormById(@PathVariable("idHash") String idHash) {
+            return applicationFormService.findApplicationFormByIdHash(idHash);
     }
 
     @PutMapping(value = "/applications")
     @ResponseBody
     public ApplicationForm changeStatus(@RequestBody @Valid ApplicationForm applicationForm) {
-        return applicationFormService.changeStatus(applicationForm);
+        return applicationFormService.changeApplicationFormStatus(applicationForm);
     }
 
     @PutMapping(value = "/applications/comment")
@@ -46,18 +44,7 @@ public class WebController {
     @PostMapping(value = "/applications")
     @ResponseBody
     public ApplicationForm addApplication(@RequestBody @Valid ApplicationForm applicationForm) {
-        ApplicationFormValidator validator = new ApplicationFormValidator();
-        validator.validate(applicationForm);
-        Parser parser = new Parser();
-        applicationForm = parser.parse(applicationForm);
-        return applicationFormService.createNewForm(applicationForm);
+        return applicationFormService.addNewApplicationFormToDB(applicationForm);
     }
-
-    //galbut vystysim
-//    @PostMapping(value = "/admin/registration")
-//    @ResponseBody
-//    public Admin createAdmin(@RequestBody Admin admin) {
-//        return adminService.create(admin);
-//    }
 
 }
