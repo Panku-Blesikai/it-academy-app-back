@@ -16,7 +16,7 @@ public class Parser {
 
         applicationForm.setPhone(formatTelephoneNumber(applicationForm.getPhone()));
 
-        String formattedEducation = wordFirstLetterToUppercase(deleteExtraSpaces(applicationForm.getEducation()));
+        String formattedEducation = deleteExtraSpaces(applicationForm.getEducation());
         applicationForm.setEducation(formattedEducation);
 
         applicationForm.setFreeTimeActivity(deleteExtraSpaces(applicationForm.getFreeTimeActivity()));
