@@ -10,10 +10,6 @@ public class NameValidator extends Validator<String> {
 
         attribute = attribute.trim();
 
-        if (attribute.equals("")) {
-            throw new ValidationException(ErrorMessages.fieldIsEmpty);
-        }
-
         checkEveryNameInString(attribute);
     }
 
