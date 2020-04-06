@@ -15,7 +15,7 @@ public class SurnameValidator extends Validator<String> {
 
         doesStringContainOnlyLettersSpacesOrDash(attribute);
 
-        checkNumberOfWords(attribute);
+        // checkNumberOfWords(attribute);
     }
 
     private void checkNumberOfWords(String attribute) {
