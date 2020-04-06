@@ -195,4 +195,7 @@ public class ApplicationForm {
         this.comments = comments;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
 }

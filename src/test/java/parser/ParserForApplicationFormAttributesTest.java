@@ -1,6 +1,6 @@
 package parser;
 
-public class ParserTest {
+public class ParserForApplicationFormAttributesTest {
 //    private Parser parser = new Parser();
 //
 //    @Test

@@ -1,7 +1,7 @@
 .gradle
 /build/
 !gradle-wrapper.jar
-.log
+*.log
 bin
 .env
 .vscode
