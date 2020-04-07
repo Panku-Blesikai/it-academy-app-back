@@ -38,9 +38,6 @@ public class ApplicationFormService {
     @Autowired
     ApplicationFormRepository applicationFormRepository;
 
-    @Autowired
-    EmailService emailService;
-
     public ApplicationForm findApplicationFormByIdHash(String idHash) throws IdNotFoundException {
         BasicDBObject query = new BasicDBObject();
         query.put("idHash", idHash);
@@ -60,31 +57,25 @@ public class ApplicationFormService {
         return applicationForms;
     }
 
-    public ApplicationForm changeApplicationFormStatus(ApplicationForm applicationForm) {
+    public BasicDBObject changeApplicationFormStatus(ApplicationForm applicationForm) {
         StatusChangeValidator validator = new StatusChangeValidator();
         validator.checkIsStatusInProgress(findApplicationFormByIdHash(applicationForm.getIdHash()).getStatus());
         BasicDBObject searchQuery = new BasicDBObject().append("idHash", applicationForm.getIdHash());
         BasicDBObject newStatus = new BasicDBObject().append("status", applicationForm.getStatus());
         BasicDBObject newDocument = new BasicDBObject().append("$set", newStatus);
         collection.update(searchQuery, newDocument);
-        ApplicationForm applicationFormWithNewStatus = findApplicationFormByIdHash(applicationForm.getIdHash());
-        if (applicationFormWithNewStatus.getStatus().equals(Status.ACCEPTED.getStatusInLithuanian())) {
-            emailService.sendMail(applicationFormWithNewStatus);
-        }
-        return applicationFormWithNewStatus;
+        return newDocument;
     }
 
-    public ApplicationForm addComment(ApplicationForm applicationForm) throws IncorrectDataException {
+    public BasicDBObject addComment(ApplicationForm applicationForm) throws IncorrectDataException {
         BasicDBObject searchQuery = new BasicDBObject().append("idHash", applicationForm.getIdHash());
         BasicDBObject newComments = new BasicDBObject().append("comments", applicationForm.getComments());
         BasicDBObject newDocument = new BasicDBObject().append("$set", newComments);
         collection.update(searchQuery, newDocument);
-        ApplicationForm applicationFormWithNewComments =  findApplicationFormByIdHash(applicationForm.getIdHash());
-        // send email
-        return applicationFormWithNewComments;
+        return newDocument;
     }
 
-    public ApplicationForm addNewApplicationFormToDB(ApplicationForm applicationForm) {
+    public BasicDBObject addNewApplicationFormToDB(ApplicationForm applicationForm) {
         ApplicationFormValidator validator = new ApplicationFormValidator();
         validator.validate(applicationForm);
         ParserForApplicationFormAttributes parserForApplicationFormAttributes = new ParserForApplicationFormAttributes();
@@ -110,8 +101,7 @@ public class ApplicationFormService {
         String uniqueId = currentDateTime.concat(applicationForm.getEmail());
         formToAdd.put("idHash", hashService.getHash(uniqueId));
         collection.save(formToAdd);
-        emailService.sendMail(mapApplicationForm(formToAdd));
-        return mapApplicationForm(formToAdd);
+        return formToAdd;
     }
 
     public ApplicationForm mapApplicationForm(BasicDBObject basicDBObject) {
