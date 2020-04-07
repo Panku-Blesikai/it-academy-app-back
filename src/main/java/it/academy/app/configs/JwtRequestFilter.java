@@ -38,9 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                e.getMessage();
-            } catch (ExpiredJwtException e) {
+            } catch (IllegalArgumentException | ExpiredJwtException e) {
                 e.getMessage();
             }
         }

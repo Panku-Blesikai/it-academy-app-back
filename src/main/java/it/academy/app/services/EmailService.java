@@ -3,32 +3,35 @@ package it.academy.app.services;
 import it.academy.app.models.ApplicationForm;
 import it.academy.app.shared.Constants;
 import it.academy.app.shared.Status;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Properties;
 
 @Service
 public class EmailService {
 
-    Properties props = new Properties();
+    Properties properties = new Properties();
 
     public EmailService() throws IOException {
-        props.load(new FileInputStream("src/main/resources/email/config.properties"));
+        properties.load(new FileReader("src/main/resources/email/config.properties"));
     }
 
-    public void sendMail(ApplicationForm applicationForm){
+    public void sendMail(ApplicationForm applicationForm) {
 
         final String email = Constants.EMAIL;
         final String password = System.getenv("EMAIL_PASS");
         try {
-            Session session = Session.getDefaultInstance(props,
+            Session session = Session.getDefaultInstance(properties,
                     new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
                             return new PasswordAuthentication(email, password);
@@ -52,11 +55,10 @@ public class EmailService {
         message.setFrom(new InternetAddress(Constants.EMAIL));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(applicationForm.getEmail(), false));
-        message.setSubject("IT akademija");
-        message.setText("Labas " + applicationForm.getName() + " " + applicationForm.getSurname() +
-                ",\n" + "\n" + "Ačiū už registraciją, savo registracijos anketą gali rasti čia:\n" + "\n" +
-                "https://it-academy-app-front.herokuapp.com/application/" + applicationForm.getIdHash() + "\n" +
-                        "\n" + "Pagarbiai" + "\n" + "IT akademijos komanda");
+        message.setSubject(properties.getProperty("message.subject"));
+        String text = String.format(properties.getProperty("participation.message"), applicationForm.getName(),
+                applicationForm.getSurname(), applicationForm.getIdHash());
+        message.setText(text);
         message.setSentDate(new Date());
         return message;
     }
@@ -67,13 +69,10 @@ public class EmailService {
         message.setFrom(new InternetAddress(Constants.EMAIL));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(applicationForm.getEmail(), false));
-        message.setSubject("IT akademija");
-        message.setText("Labas " + applicationForm.getName() + " " + applicationForm.getSurname() + ",\n" +
-                "\n" +
-                "Tavo paraiška buvo patvirtinta. Dėl tolimesnio atrankos proceso susisieksime netrūkus." + "\n" +
-                "\n" +
-                "Pagarbiai" + "\n" +
-                "IT akademijos komanda");
+        message.setSubject(properties.getProperty("message.subject"));
+        String text = String.format(properties.getProperty("success.message"), applicationForm.getName(),
+                applicationForm.getSurname());
+        message.setText(text);
         message.setSentDate(new Date());
         return message;
     }
