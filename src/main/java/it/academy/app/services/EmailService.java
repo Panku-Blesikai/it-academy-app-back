@@ -89,10 +89,6 @@ public class EmailService {
                 InternetAddress.parse(applicationForm.getEmail(), false));
         message.setSubject(properties.getProperty("message.subject"));
         BasicDBObject newComment = applicationForm.getComments().get(applicationForm.getComments().size() - 1);
-        /*System.out.println(applicationForm.getComments().size());
-        System.out.println(newComment.getString("input"));
-        System.out.println(newComment.getString("author"));
-        System.out.println(newComment.getString("input").contains("Kandidatui numatytas interviu laikas: "));*/
         String text;
         if(newComment.getString("input").contains("Kandidatui numatytas interviu laikas: ")) {
             text = String.format(properties.getProperty("interview.message"), applicationForm.getName(),
