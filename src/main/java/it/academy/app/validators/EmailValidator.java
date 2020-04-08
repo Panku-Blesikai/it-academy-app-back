@@ -12,7 +12,7 @@ public class EmailValidator extends Validator<String> {
     }
 
     private void checkIfEmailFormIsValid(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$";
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
         Pattern pat = Pattern.compile(emailRegex);
 
