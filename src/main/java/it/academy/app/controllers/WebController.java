@@ -52,7 +52,7 @@ public class WebController {
         applicationFormService.addComment(applicationForm);
         ApplicationForm applicationFormWithNewComments =
                 applicationFormService.findApplicationFormByIdHash(applicationForm.getIdHash());
-        // send email
+        emailService.sendCommentMail(applicationFormWithNewComments);
         return applicationFormWithNewComments;
     }
 
