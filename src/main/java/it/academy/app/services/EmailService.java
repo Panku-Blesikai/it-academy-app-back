@@ -89,14 +89,18 @@ public class EmailService {
                 InternetAddress.parse(applicationForm.getEmail(), false));
         message.setSubject(properties.getProperty("message.subject"));
         BasicDBObject newComment = applicationForm.getComments().get(applicationForm.getComments().size() - 1);
+        /*System.out.println(applicationForm.getComments().size());
+        System.out.println(newComment.getString("input"));
+        System.out.println(newComment.getString("author"));
+        System.out.println(newComment.getString("input").contains("Kandidatui numatytas interviu laikas: "));*/
         String text;
-        if(newComment.getString("comment").contains("Kandidatui numatytas interviu laikas: ")) {
+        if(newComment.getString("input").contains("Kandidatui numatytas interviu laikas: ")) {
             text = String.format(properties.getProperty("interview.message"), applicationForm.getName(),
-                    applicationForm.getSurname(), newComment.getString("comment"), applicationForm.getIdHash());
+                    applicationForm.getSurname(), newComment.getString("input"), applicationForm.getIdHash());
         } else {
             text = String.format(properties.getProperty("comment.message"), applicationForm.getName(),
                     applicationForm.getSurname(), newComment.getString("author"),
-                    newComment.getString("comment"), applicationForm.getIdHash());
+                    newComment.getString("input"), applicationForm.getIdHash());
         }
         message.setText(text);
         message.setSentDate(new Date());
