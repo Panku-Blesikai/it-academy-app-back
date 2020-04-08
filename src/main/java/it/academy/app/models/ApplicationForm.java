@@ -1,8 +1,6 @@
 package it.academy.app.models;
 
 import com.mongodb.BasicDBObject;
-import it.academy.app.shared.Comment;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,8 +12,9 @@ public class ApplicationForm {
     private final int shortInfoAnswer = 256;
     private final int longQuestionAnswer = 1024;
 
+
     @Id
-    private String id;
+    private String idHash;
 
     @NotNull
     @NotEmpty
@@ -75,8 +74,6 @@ public class ApplicationForm {
 
     private String dateTime;
 
-    private String idHash;
-
     private List<BasicDBObject> comments;
 
     public ApplicationForm() {
@@ -90,10 +87,6 @@ public class ApplicationForm {
         this.status = status;
     }
 
-    public String getDateTime() {
-        return dateTime;
-    }
-
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
@@ -104,14 +97,6 @@ public class ApplicationForm {
 
     public void setIdHash(String idHash) {
         this.idHash = idHash;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -210,4 +195,7 @@ public class ApplicationForm {
         this.comments = comments;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
 }

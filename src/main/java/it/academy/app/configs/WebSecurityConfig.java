@@ -35,14 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    @Autowired
-//    private CustomAuthenticationProvider authProvider;
-//
-//    @Autowired
-//    public void configAuthentication(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(authProvider);
-//    }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -69,8 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/applications")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/applications/{**}")
-//                .permitAll()
-//                .antMatchers(HttpMethod.POST, "/admin/registration")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

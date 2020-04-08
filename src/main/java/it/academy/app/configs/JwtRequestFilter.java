@@ -38,15 +38,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                e.getMessage();
-            } catch (ExpiredJwtException e) {
+            } catch (IllegalArgumentException | ExpiredJwtException e) {
                 e.getMessage();
             }
         }
-//        else {
-//            logger.warn("JWT Token does not begin with Bearer String");
-//        }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -54,8 +49,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
+
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

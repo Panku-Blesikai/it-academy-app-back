@@ -9,15 +9,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class AdminAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private AdminService adminService;
@@ -28,16 +24,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         Admin admin;
-        List<GrantedAuthority> authorities = new ArrayList<>();
 
         try {
             admin = adminService.checkLoginCredentials(username, password);
-            authorities.add(new SimpleGrantedAuthority(admin.getRole()));
-
         } catch (IncorrectDataException e) {
             throw new BadCredentialsException("User password is incorrect.");
         }
-        return new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword(), authorities);
+        return new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword(), new ArrayList<>());
     }
 
     @Override

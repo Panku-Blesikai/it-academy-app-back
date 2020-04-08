@@ -1,6 +1,6 @@
 package it.academy.app.exception;
 
-import it.academy.app.shared.ErrorMessages;
+import it.academy.app.validators.ErrorMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

@@ -1,6 +1,6 @@
 package it.academy.app.controllers;
 
-import it.academy.app.configs.CustomAuthenticationProvider;
+import it.academy.app.configs.AdminAuthenticationProvider;
 import it.academy.app.configs.JwtTokenUtil;
 import it.academy.app.models.JwtRequest;
 import it.academy.app.models.JwtResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class JwtAuthenticationController {
 
     @Autowired
-    private CustomAuthenticationProvider customAuthenticationProvider;
+    private AdminAuthenticationProvider adminAuthenticationProvider;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -41,7 +41,7 @@ public class JwtAuthenticationController {
 
     private void authenticate(String username, String password) throws Exception {
         try {
-            customAuthenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            adminAuthenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
