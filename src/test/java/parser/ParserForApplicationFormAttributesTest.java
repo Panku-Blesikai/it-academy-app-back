@@ -1,7 +1,7 @@
 package parser;
 
 public class ParserForApplicationFormAttributesTest {
-//    private Parser parser = new Parser();
+//    private ParserForApplicationFormAttributes parser = new ParserForApplicationFormAttributes();
 //
 //    @Test
 //    public void shouldDeleteExtraSpacesManyWords() {
@@ -31,6 +31,12 @@ public class ParserForApplicationFormAttributesTest {
 //    public void shouldCapitalizeFirstLettersEveryWord() {
 //        String result = parser.wordFirstLetterToUppercase("wORD Word");
 //        assertEquals(result, "Word Word");
+//    }
+//
+//    @Test
+//    public void shouldCapitalizeFirstLettersEveryWordWithDash() {
+//        String result = parser.wordFirstLetterToUppercase("kazkauskaite-kazkauskiene");
+//        assertEquals(result, "Kazkauskaite-Kazkauskiene");
 //    }
 //
 //    @Test

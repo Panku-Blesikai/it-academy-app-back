@@ -31,7 +31,16 @@ public class ParserForApplicationFormAttributes {
     }
 
     private String wordFirstLetterToUppercase(String attribute) {
-        return WordUtils.capitalizeFully((attribute));
+        attribute = WordUtils.capitalizeFully(attribute);
+
+        if (attribute.indexOf('-') > -1) {
+            for (int i = 1; i < attribute.length(); ++i) {
+                if (attribute.charAt(i - 1) == '-') {
+                    attribute = attribute.substring(0, i) + Character.toUpperCase(attribute.charAt(i)) + attribute.substring(i + 1);
+                }
+            }
+        }
+        return attribute;
     }
 
     private String formatTelephoneNumber(String attribute) {
