@@ -1,7 +1,6 @@
 package it.academy.app.validators;
 
 import it.academy.app.exception.ValidationException;
-
 import java.util.regex.Pattern;
 
 public class PhoneNumberValidator extends Validator<String> {
