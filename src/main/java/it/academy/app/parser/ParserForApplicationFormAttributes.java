@@ -26,15 +26,24 @@ public class ParserForApplicationFormAttributes {
         return applicationForm;
     }
 
-    private String deleteExtraSpaces(String attribute) {
+    public String deleteExtraSpaces(String attribute) {
         return attribute.trim().replaceAll(" +", " ");
     }
 
-    private String wordFirstLetterToUppercase(String attribute) {
-        return WordUtils.capitalizeFully((attribute));
+    public String wordFirstLetterToUppercase(String attribute) {
+        attribute = WordUtils.capitalizeFully(attribute);
+
+        if (attribute.indexOf('-') > -1) {
+            for (int i = 1; i < attribute.length(); ++i) {
+                if (attribute.charAt(i - 1) == '-') {
+                    attribute = attribute.substring(0, i) + Character.toUpperCase(attribute.charAt(i)) + attribute.substring(i + 1);
+                }
+            }
+        }
+        return attribute;
     }
 
-    private String formatTelephoneNumber(String attribute) {
+    public String formatTelephoneNumber(String attribute) {
         return attribute.substring(0, 5) + "-" + attribute.substring(5, 7) + "-" + attribute.substring(7);
     }
 }
