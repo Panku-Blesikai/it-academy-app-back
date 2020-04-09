@@ -26,11 +26,11 @@ public class ParserForApplicationFormAttributes {
         return applicationForm;
     }
 
-    public String deleteExtraSpaces(String attribute) {
+    private String deleteExtraSpaces(String attribute) {
         return attribute.trim().replaceAll(" +", " ");
     }
 
-    public String wordFirstLetterToUppercase(String attribute) {
+    private String wordFirstLetterToUppercase(String attribute) {
         attribute = WordUtils.capitalizeFully(attribute);
 
         if (attribute.indexOf('-') > -1) {
@@ -43,7 +43,7 @@ public class ParserForApplicationFormAttributes {
         return attribute;
     }
 
-    public String formatTelephoneNumber(String attribute) {
+    private String formatTelephoneNumber(String attribute) {
         return attribute.substring(0, 5) + "-" + attribute.substring(5, 7) + "-" + attribute.substring(7);
     }
 }
